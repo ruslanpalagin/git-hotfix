@@ -1,0 +1,129 @@
+#!/usr/bin/env ruby
+
+VERSION = '1.0.0'
+
+def goto_action name
+  new_branch = "hotfix/#{name}"
+
+  if current_branch == new_branch
+    cli "git merge master"
+    exit
+  end
+
+  cmds = []
+  if branch_exists? new_branch
+    cmds << "git checkout #{new_branch}"
+    cmds << "git merge master"
+  else
+    cmds << "git checkout master" unless current_branch == 'master'
+    cmds << "git checkout -b #{new_branch}"
+  end
+
+  cmds.each{|cmd| p cmd }
+  cli cmds
+end
+
+def save
+  branch = current_branch
+  unless branch.include? 'hotfix'
+    print "You are not in hotfix branch!\n"
+    exit
+  end
+
+  task = branch.scan(/\/([\d]+)/)[0][0]
+  comment = ARGV.last == 'save' || branch_exists?(ARGV.last) ? nil : ARGV.last
+  merge_branches = ARGV[1..-1].select{|arg| arg != comment }
+  cmds = []
+  cmds << "git add . && git commit -a -m '##{task} #{comment}' && git push origin #{branch}" if has_changes?
+  merge_branches.each do |merge_branch|
+    cmds << "git checkout #{merge_branch} && git merge #{branch} && git push origin #{merge_branch}"
+  end
+
+  cmds.each{|cmd| p cmd }
+  p 'Ok? (y/n) [y]:'
+  key = STDIN.gets.chomp
+  if key == '' || key == 'y'
+    cli cmds
+  end
+end
+
+def help_action
+  print "Version: #{VERSION}" + "\n\n"
+  print 'examples: ' + "\n\n"
+  print 'hf 777' + "\n"
+  print 'hf save "its a comment"' + "\n"
+  print 'hf save master develop "its a comment"' + "\n"
+  print "\n"
+end
+
+def main
+  branches
+
+  if ARGV[0] == 'save'
+    save
+    exit
+  end
+
+  if ARGV[0] == 'sync'
+    sync_master_action
+    exit
+  end
+
+  if ARGV.count == 1
+    name = ARGV[0]
+    goto_action name
+  end
+
+  if ARGV.count == 0
+    help_action
+  end
+end
+
+def sync_master_action
+  cli "git merge master"
+end
+
+def current_branch
+  name = `git status`
+  name.scan(/branch\s([\w\d\/]+)/)[0][0]
+end
+
+def cli cmds, options = {}
+  options[:silent] = false
+  cmds = [cmds] unless cmds.is_a? Array
+  exec cmds.join(' && ')
+end
+
+def suppress_output
+  begin
+    original_stderr = $stderr.clone
+    original_stdout = $stdout.clone
+    $stderr.reopen(File.new('/dev/null', 'w'))
+    $stdout.reopen(File.new('/dev/null', 'w'))
+    retval = yield
+  rescue Exception => e
+    $stdout.reopen(original_stdout)
+    $stderr.reopen(original_stderr)
+    raise e
+  ensure
+    $stdout.reopen(original_stdout)
+    $stderr.reopen(original_stderr)
+  end
+  retval
+end
+
+def branches
+  list = `git branch`
+  list.split("\n").map{|b| b.strip }
+end
+
+def branch_exists? name
+  branches.include? name
+end
+
+def has_changes?
+  status = `git status`
+  !status.include? 'nothing to commit, working directory clean'
+end
+
+main()
