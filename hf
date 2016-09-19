@@ -13,7 +13,6 @@ def goto_action name
   cmds = []
   if branch_exists? new_branch
     cmds << "git checkout #{new_branch}"
-    cmds << "git merge master"
   else
     cmds << "git checkout master" unless current_branch == 'master'
     cmds << "git checkout -b #{new_branch}"
