@@ -48,3 +48,7 @@ hf save master develop "foo"
 hf sync master
 ```
 
+# TODO
+
+- remove single hotfix
+- remove old & merged hotfixes
