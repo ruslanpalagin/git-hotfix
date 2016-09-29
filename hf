@@ -29,7 +29,7 @@ def save
     exit
   end
 
-  task = branch.scan(/\/([\d]+)/)[0][0]
+  task = branch.scan(/\/([^\/]+)/)[0][0]
   comment = ARGV.last == 'save' || branch_exists?(ARGV.last) ? nil : ARGV.last
   merge_branches = ARGV[1..-1].select{|arg| arg != comment }
   cmds = []
