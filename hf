@@ -56,8 +56,6 @@ def help_action
 end
 
 def main
-  branches
-
   if ARGV[0] == 'save'
     save
     exit
@@ -83,8 +81,7 @@ def sync_master_action
 end
 
 def current_branch
-  name = `git status`
-  name.scan(/branch\s([\w\d\/]+)/)[0][0]
+  branches_raw.detect{|br| br.include? '*'}.gsub('*', '').strip
 end
 
 def cli cmds, options = {}
@@ -111,9 +108,13 @@ def suppress_output
   retval
 end
 
-def branches
+def branches_raw
   list = `git branch`
-  list.split("\n").map{|b| b.strip }
+  list.split("\n")
+end
+
+def branches
+  branches_raw.map{|b| b.gsub('*', '').strip }
 end
 
 def branch_exists? name
