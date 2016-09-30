@@ -52,6 +52,8 @@ def help_action
   print 'hf 777' + "\n"
   print 'hf save "its a comment"' + "\n"
   print 'hf save master develop "its a comment"' + "\n"
+  print 'hf self-update' + "\n"
+  print 'hf self-update v1.0.1' + "\n"
   print "\n"
 end
 
@@ -63,6 +65,11 @@ def main
 
   if ARGV[0] == 'sync'
     sync_master_action
+    exit
+  end
+
+  if ARGV[0] == 'self-update'
+    self_update_action
     exit
   end
 
@@ -78,6 +85,13 @@ end
 
 def sync_master_action
   cli "git merge master"
+end
+
+def self_update_action
+  checkout = ARGV[1] || :master
+  dir = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }
+  dir = dir.scan(/\->\s(.*)\/hf/)[0][0]
+  `cd #{dir} && git pull origin #{checkout}`
 end
 
 def current_branch

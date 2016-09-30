@@ -2,6 +2,14 @@
 
 git clone https://github.com/r1dd1ck777/git-hotfix.git && cd git-hotfix && chmod +x hf && sudo ln -s $PWD/hf /usr/bin/hf
 
+# Update
+
+```
+hf self-update
+```
+or
+rm /usr/bin/hf && git clone https://github.com/r1dd1ck777/git-hotfix.git && cd git-hotfix && chmod +x hf && sudo ln -s $PWD/hf /usr/bin/hf
+
 # Use
 
 ```
