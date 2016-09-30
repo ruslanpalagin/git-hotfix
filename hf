@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 
 def goto_action name
   new_branch = "hotfix/#{name}"
