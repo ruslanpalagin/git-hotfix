@@ -12,3 +12,8 @@ now return you back to your hotfix branch
 hf save develop --no-push
 ```
 Skip push to remote
+
+
+### 1.0.4
+
+Autopull on merge

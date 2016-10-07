@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '1.0.3'
+VERSION = '1.0.4'
 
 def goto_action name
   new_branch = "hotfix/#{name}"
@@ -35,11 +35,11 @@ def save_action args, options
   cmds = []
 
   if has_changes?
-    cmds << "git add . && git commit -a -m '##{task} #{comment}' #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
+    cmds << "git add . && git commit -a -m '##{task} #{comment}' && git pull origin #{branch} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
   end
 
   merge_branches.each do |merge_branch|
-    cmds << "git checkout #{merge_branch} && git merge #{branch} #{options[:no_push] ? nil : "&& git push origin #{merge_branch}"}"
+    cmds << "git checkout #{merge_branch} && git pull origin #{merge_branch} && git merge #{branch} #{options[:no_push] ? nil : "&& git push origin #{merge_branch}"}"
   end
 
   cmds << "git checkout #{branch}" if merge_branches.any?
