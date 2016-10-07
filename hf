@@ -22,7 +22,7 @@ def goto_action name
   cli cmds
 end
 
-def save
+def save_action args, options
   branch = current_branch
   unless branch.include? 'hotfix'
     print "You are not in hotfix branch!\n"
@@ -30,18 +30,22 @@ def save
   end
 
   task = branch.scan(/\/([^\/]+)/)[0][0]
-  comment = ARGV.last == 'save' || branch_exists?(ARGV.last) ? nil : ARGV.last
-  merge_branches = ARGV[1..-1].select{|arg| arg != comment }
+  comment = args.last == 'save' || branch_exists?(args.last) ? nil : args.last
+  merge_branches = args[1..-1].select{|arg| arg != comment }
   cmds = []
-  cmds << "git add . && git commit -a -m '##{task} #{comment}' && git push origin #{branch}" if has_changes?
-  merge_branches.each do |merge_branch|
-    cmds << "git checkout #{merge_branch} && git merge #{branch} && git push origin #{merge_branch}"
+
+  if has_changes?
+    cmds << "git add . && git commit -a -m '##{task} #{comment}' #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
   end
 
-  cmds << "git checkout #{branch}"
+  merge_branches.each do |merge_branch|
+    cmds << "git checkout #{merge_branch} && git merge #{branch} #{options[:no_push] ? nil : "&& git push origin #{merge_branch}"}"
+  end
 
-  cmds.each{|cmd| p cmd }
-  p 'Ok? (y/n) [y]:'
+  cmds << "git checkout #{branch}" if merge_branches.any?
+
+  cmds.each{|cmd| print cmd  + "\n"}
+  print 'Ok? (y/n) [y]:' + "\n"
   key = STDIN.gets.chomp
   if key == '' || key == 'y'
     cli cmds
@@ -50,37 +54,46 @@ end
 
 def help_action
   print "Version: #{VERSION}" + "\n\n"
-  print 'examples: ' + "\n\n"
+  print 'Examples: ' + "\n\n"
   print 'hf 777' + "\n"
   print 'hf save "its a comment"' + "\n"
   print 'hf save master develop "its a comment"' + "\n"
   print 'hf self-update' + "\n"
   print 'hf self-update v1.0.1' + "\n"
   print "\n"
+  print 'Options: ' + "\n"
+  print 'No push: (--no-push|-np|--local) prevents pushes to remote' + "\n"
+  print 'hf save master "its a comment" --local' + "\n"
+  print "\n"
 end
 
 def main
-  if ARGV[0] == 'save'
-    save
+  args = ARGV.select{|arg| arg[0] != '-' || arg.include?(' ') }
+  flags = ARGV.select{|arg| arg[0] == '-' && !arg.include?(' ') }
+  options = {}
+  options[:no_push] = flags.include?('--no-push') || flags.include?('--local')
+
+  if args[0] == 'save'
+    save_action args, options
     exit
   end
 
-  if ARGV[0] == 'sync'
+  if args[0] == 'sync'
     sync_master_action
     exit
   end
 
-  if ARGV[0] == 'self-update'
+  if args[0] == 'self-update'
     self_update_action
     exit
   end
 
-  if ARGV.count == 1
-    name = ARGV[0]
+  if args.count == 1
+    name = args[0]
     goto_action name
   end
 
-  if ARGV.count == 0
+  if args.count == 0
     help_action
   end
 end

@@ -58,5 +58,6 @@ hf sync master
 
 # TODO
 
+1.0.3 - flag [--no-push] or [-np]
 - remove single hotfix
 - remove old & merged hotfixes
