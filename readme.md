@@ -10,6 +10,10 @@ hf self-update
 or
 sudo rm /usr/bin/hf && git clone https://github.com/r1dd1ck777/git-hotfix.git && cd git-hotfix && chmod +x hf && sudo ln -s $PWD/hf /usr/bin/hf
 
+# Ads
+
+Use https://gist.github.com/Kris-Simpson/ab274db3ca7f5160d5ad4bbba3517547 to show branch in cli directory! It's great!)
+
 # Use
 
 ```
