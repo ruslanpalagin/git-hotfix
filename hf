@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '1.0.1'
+VERSION = '1.0.2'
 
 def goto_action name
   new_branch = "hotfix/#{name}"
@@ -37,6 +37,8 @@ def save
   merge_branches.each do |merge_branch|
     cmds << "git checkout #{merge_branch} && git merge #{branch} && git push origin #{merge_branch}"
   end
+
+  cmds << "git checkout #{branch}"
 
   cmds.each{|cmd| p cmd }
   p 'Ok? (y/n) [y]:'
