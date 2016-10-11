@@ -19,6 +19,7 @@ Use https://gist.github.com/Kris-Simpson/ab274db3ca7f5160d5ad4bbba3517547 to sho
 ```
 hf BRANCH_NAME
 hf save [branches]+ ["comment"]
+hf deploy [branches]+ ["comment"]
 hf sync
 ```
 
@@ -58,6 +59,18 @@ hf save master
 ```
 hf save master develop "foo"
 ```
+
+###Same as "save" but with running deploy scripts from .hf.yml
+
+```
+hf deploy master develop "foo"
+```
+
+#### .hf.yml example
+deploy:
+  master: "cap production deploy"
+  develop: "cap staging deploy"
+
 
 ###Merge master into 'hotfix/123'
 
