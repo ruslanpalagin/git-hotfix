@@ -66,6 +66,7 @@ def help_action
   print 'hf 777' + "\n"
   print 'hf save "its a comment"' + "\n"
   print 'hf save master develop "its a comment"' + "\n"
+  print 'hf deploy master develop "its a comment"' + "\n"
   print 'hf self-update' + "\n"
   print 'hf self-update v1.0.1' + "\n"
   print "\n"
