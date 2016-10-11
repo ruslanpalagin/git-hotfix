@@ -17,3 +17,7 @@ Skip push to remote
 ### 1.0.4
 
 Autopull on merge
+
+### 1.0.5
+
+Deploy feature
