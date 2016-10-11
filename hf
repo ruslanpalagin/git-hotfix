@@ -1,6 +1,13 @@
 #!/usr/bin/env ruby
 
 VERSION = '1.0.4'
+ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
+PROJECT_DIR = `pwd`.gsub("\n", '')
+
+require 'yaml'
+require ROOT_DIR + '/context.rb'
+require ROOT_DIR + '/run_cli.rb'
+require ROOT_DIR + '/deploy_action.rb'
 
 def goto_action name
   new_branch = "hotfix/#{name}"
@@ -76,6 +83,12 @@ def main
 
   if args[0] == 'save'
     save_action args, options
+    exit
+  end
+
+  if args[0] == 'deploy'
+    cmds = DeployAction.(args, options)
+    RunCli.(cmds)
     exit
   end
 

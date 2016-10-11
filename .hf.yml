@@ -1,0 +1,3 @@
+deploy:
+  master: "echo 'yey master!!!'"
+  develop: "echo 'yey develop!!!'"
