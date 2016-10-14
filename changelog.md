@@ -16,8 +16,12 @@ Skip push to remote
 
 ### 1.0.4
 
-Autopull on merge
+Autopull target branch (master or develop etc.) on merge
 
 ### 1.0.5
 
 Deploy feature
+
+### 1.0.6
+
+- Autopull hotfix/xxx branch on checkout

@@ -17,9 +17,10 @@ Use https://gist.github.com/Kris-Simpson/ab274db3ca7f5160d5ad4bbba3517547 to sho
 # Use
 
 ```
-hf BRANCH_NAME
+hf TASK_NUMBER
 hf save [branches]+ ["comment"]
 hf deploy [branches]+ ["comment"]
+hf delete-merged
 hf sync
 ```
 
@@ -76,6 +77,12 @@ deploy:
 
 ```
 hf sync master
+```
+
+###Remove all merged (into master) hotfix branches (local & remote):
+
+```
+hf delete-merged
 ```
 
 # TODO

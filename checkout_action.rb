@@ -11,12 +11,12 @@ class CheckoutAction
         cmds = cmds + goto(new_branch)
       end
 
-      print `git remote update`
+      print Remote::Br.update
       if Remote::Br.exists? new_branch
         cmds << "git pull origin #{new_branch}"
       end
 
-      { cmds: cmds }
+      { cmds: cmds, danger: true }
     end
 
     protected

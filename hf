@@ -13,6 +13,7 @@ require ROOT_DIR + '/remote.rb'
 require ROOT_DIR + '/exec_cli.rb'
 require ROOT_DIR + '/deploy_action.rb'
 require ROOT_DIR + '/checkout_action.rb'
+require ROOT_DIR + '/delete_merged_action.rb'
 
 
 def save_action args, options
@@ -85,6 +86,10 @@ def run_actions
   if args[0] == 'self-update'
     self_update_action
     exit
+  end
+
+  if args[0] == 'delete-merged'
+    return DeleteMergedAction.(args, options)
   end
 
   if args.count == 1
