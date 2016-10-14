@@ -37,7 +37,7 @@ class DeployAction
       end
 
       cmds << "git checkout #{branch}" if merge_branches.any?
-      cmds
+      { cmds: cmds, danger: true }
     end
 
     protected

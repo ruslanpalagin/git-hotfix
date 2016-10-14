@@ -6,28 +6,10 @@ PROJECT_DIR = `pwd`.gsub("\n", '')
 
 require 'yaml'
 require ROOT_DIR + '/context.rb'
-require ROOT_DIR + '/run_cli.rb'
+require ROOT_DIR + '/exec_cli.rb'
 require ROOT_DIR + '/deploy_action.rb'
+require ROOT_DIR + '/checkout_action.rb'
 
-def goto_action name
-  new_branch = "hotfix/#{name}"
-
-  if current_branch == new_branch
-    cli "git merge master"
-    exit
-  end
-
-  cmds = []
-  if branch_exists? new_branch
-    cmds << "git checkout #{new_branch}"
-  else
-    cmds << "git checkout master" unless current_branch == 'master'
-    cmds << "git checkout -b #{new_branch}"
-  end
-
-  cmds.each{|cmd| p cmd }
-  cli cmds
-end
 
 def save_action args, options
   branch = current_branch
@@ -76,7 +58,7 @@ def help_action
   print "\n"
 end
 
-def main
+def run_actions
   args = ARGV.select{|arg| arg[0] != '-' || arg.include?(' ') }
   flags = ARGV.select{|arg| arg[0] == '-' && !arg.include?(' ') }
   options = {}
@@ -88,9 +70,7 @@ def main
   end
 
   if args[0] == 'deploy'
-    cmds = DeployAction.(args, options)
-    RunCli.(cmds)
-    exit
+    return DeployAction.(args, options)
   end
 
   if args[0] == 'sync'
@@ -104,12 +84,12 @@ def main
   end
 
   if args.count == 1
-    name = args[0]
-    goto_action name
+    return CheckoutAction.(args, options)
   end
 
   if args.count == 0
     help_action
+    exit
   end
 end
 
@@ -168,6 +148,10 @@ end
 def has_changes?
   status = `git status`
   !status.include? 'nothing to commit, working directory clean'
+end
+
+def main
+  ExecCli.(run_actions)
 end
 
 main()

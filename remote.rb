@@ -1,8 +1,8 @@
-module Context
+module Remote
   class Br
     class << self
       def current
-        `git rev-parse --abbrev-ref HEAD`.gsub("\n", '')
+        raw_list.detect{|br| br.include? '*'}.gsub('*', '').strip
       end
 
       def list
@@ -22,15 +22,6 @@ module Context
       def raw_list
         list = `git branch`
         list.split("\n")
-      end
-    end
-  end
-
-  class Code
-    class << self
-      def has_changes?
-        status = `git status`
-        !status.include? 'nothing to commit, working directory clean'
       end
     end
   end
