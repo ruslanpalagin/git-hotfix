@@ -2,6 +2,7 @@ class ExecCli
   class << self
     def call options
       cmds = options[:cmds]
+      options[:danger] = true if ENV['DANGER']
 
       if options[:danger]
         print "\n"

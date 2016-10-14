@@ -1,27 +1,16 @@
 module Remote
   class Br
     class << self
-      def current
-        raw_list.detect{|br| br.include? '*'}.gsub('*', '').strip
-      end
-
-      def list
-        raw_list.map{|b| b.gsub('*', '').strip }
-      end
 
       def exists? name
-        list.include? name
-      end
-
-      def task_name
-        current.scan(/\/([^\/]+)/)[0][0]
+        raw_list.detect{|br_name| br_name.include? name } != nil
       end
 
       protected
 
       def raw_list
-        list = `git branch`
-        list.split("\n")
+        list = `git branch -a`
+        list.split("\n").map{|b| b.strip }.select{|br_name| br_name.include? 'remotes/' }
       end
     end
   end

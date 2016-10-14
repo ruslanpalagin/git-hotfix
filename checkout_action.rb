@@ -7,10 +7,22 @@ class CheckoutAction
 
       cmds = []
 
-      if Context::Br.current == new_branch
-        cmds << "git merge master"
-        return { cmds: cmds }
+      unless Context::Br.current == new_branch
+        cmds = cmds + goto(new_branch)
       end
+
+      print `git remote update`
+      if Remote::Br.exists? new_branch
+        cmds << "git pull origin #{new_branch}"
+      end
+
+      { cmds: cmds }
+    end
+
+    protected
+
+    def goto new_branch
+      cmds = []
 
       if Context::Br.exists? new_branch
         cmds << "git checkout #{new_branch}"
@@ -19,9 +31,7 @@ class CheckoutAction
         cmds << "git checkout -b #{new_branch}"
       end
 
-      { cmds: cmds }
+      cmds
     end
-
-    protected
   end
 end
