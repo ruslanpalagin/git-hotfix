@@ -28,6 +28,7 @@ class CheckoutAction
         cmds << "git checkout #{new_branch}"
       else
         cmds << "git checkout master" unless Context::Br.current == 'master'
+        cmds << "git pull origin master"
         cmds << "git checkout -b #{new_branch}"
       end
 
