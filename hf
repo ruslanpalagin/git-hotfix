@@ -16,6 +16,22 @@ require ROOT_DIR + '/checkout_action.rb'
 require ROOT_DIR + '/delete_merged_action.rb'
 
 
+def help_action
+  print "Version: #{VERSION}" + "\n\n"
+  print 'Examples: ' + "\n\n"
+  print 'hf 777' + "\n"
+  print 'hf save "its a comment"' + "\n"
+  print 'hf save master develop "its a comment"' + "\n"
+  print 'hf deploy master develop "its a comment"' + "\n"
+  print 'hf self-update [VERSION]' + "\n"
+  print 'hf sync' + "\n"
+  print "\n"
+  print 'Options: ' + "\n"
+  print 'No push: (--no-push|--local) prevents pushes to remote' + "\n"
+  print 'hf save master "its a comment" --local' + "\n"
+  print "\n"
+end
+
 def save_action args, options
   branch = current_branch
   unless branch.include? 'hotfix'
@@ -47,21 +63,6 @@ def save_action args, options
   end
 end
 
-def help_action
-  print "Version: #{VERSION}" + "\n\n"
-  print 'Examples: ' + "\n\n"
-  print 'hf 777' + "\n"
-  print 'hf save "its a comment"' + "\n"
-  print 'hf save master develop "its a comment"' + "\n"
-  print 'hf deploy master develop "its a comment"' + "\n"
-  print 'hf self-update' + "\n"
-  print 'hf self-update v1.0.1' + "\n"
-  print "\n"
-  print 'Options: ' + "\n"
-  print 'No push: (--no-push|--local) prevents pushes to remote' + "\n"
-  print 'hf save master "its a comment" --local' + "\n"
-  print "\n"
-end
 
 def run_actions
   args = ARGV.select{|arg| arg[0] != '-' || arg.include?(' ') }
