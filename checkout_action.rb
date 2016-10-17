@@ -16,7 +16,7 @@ class CheckoutAction
         cmds << "git pull origin #{new_branch}"
       end
 
-      { cmds: cmds, danger: true }
+      { cmds: cmds }
     end
 
     protected
