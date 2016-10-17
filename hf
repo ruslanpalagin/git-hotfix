@@ -23,6 +23,7 @@ def help_action
   print 'hf save "its a comment"' + "\n"
   print 'hf save master develop "its a comment"' + "\n"
   print 'hf deploy master develop "its a comment"' + "\n"
+  print 'hf delete-merged' + "\n"
   print 'hf self-update [VERSION]' + "\n"
   print 'hf sync' + "\n"
   print "\n"
