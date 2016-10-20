@@ -26,3 +26,7 @@ Deploy feature
 
 - Autopull hotfix/xxx branch on checkout
 - delete-merged - will clean up local & remote merged into master hotfix/* branches
+
+### 1.0.7
+
+switch branches during deploy

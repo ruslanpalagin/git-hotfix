@@ -49,13 +49,14 @@ class DeployAction
     def comment args
       args.last == 'save' || Context::Br.exists?(args.last) ? nil : args.last
     end
-    
+
     def deploy_cmd merge_branch
       yml_file = PROJECT_DIR + '/.hf.yml'
 
-      if File.exists? yml_file
-        hash = YAML.load File.read(yml_file)
-        hash['deploy'][merge_branch] if hash['deploy'] && hash['deploy'][merge_branch] != ''
+      hash = YAML.load File.read(yml_file) if File.exists? yml_file
+
+      if hash && hash['deploy'] && hash['deploy'][merge_branch] != ''
+        "git checkout #{merge_branch} && #{hash['deploy'][merge_branch]}"
       end
     end
   end
