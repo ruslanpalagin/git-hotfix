@@ -28,6 +28,7 @@ class DeleteMergedAction
                          .select{|br| !(br.include?('master') || br.include?('dev')) }
                          .select{|br| br.include? 'hotfix' }
                          .map{|br| br.gsub('remotes/origin/', '') }
+      # p all_possible_merged
 
       remotes = `git ls-remote --heads origin`.split("\n").map{|br| br.strip.scan(/refs\/heads\/(.*)/)[0][0] }
                     .select{|br| !(br.include?('master') || br.include?('dev')) }
