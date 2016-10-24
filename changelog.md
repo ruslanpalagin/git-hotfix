@@ -29,4 +29,5 @@ Deploy feature
 
 ### 1.0.7
 
-switch branches during deploy
+- Switch branches during deploy
+- Autopull hotfix/xxx branch on save & deploy
