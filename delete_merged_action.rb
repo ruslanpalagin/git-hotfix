@@ -35,7 +35,8 @@ class DeleteMergedAction
                     .map{|br| br.gsub('refs/heads/', '') }
 
       remotes_merged = remotes.select{|br| all_possible_merged.include? br }
-      locals_merged = all_possible_merged.select{|br| !remotes.include? br }
+      # locals_merged = all_possible_merged.select{|br| !remotes.include? br }
+      locals_merged = []
 
       return locals_merged, remotes_merged
     end
