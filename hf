@@ -34,6 +34,8 @@ def help_action
 end
 
 def save_action args, options
+  Remote::Br.update
+
   branch = current_branch
   unless branch.include? 'hotfix'
     print "You are not in hotfix branch!\n"
@@ -47,7 +49,7 @@ def save_action args, options
 
   if has_changes?
     # && git pull origin #{branch}
-    cmds << "git add . && git commit -a -m '##{task} #{comment}' #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
+    cmds << "git add . && git commit -a -m '##{task} #{comment}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
   end
 
   merge_branches.each do |merge_branch|

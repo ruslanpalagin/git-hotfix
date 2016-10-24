@@ -2,6 +2,8 @@
 class DeployAction
   class << self
     def call args, options
+      Remote::Br.update
+
       branch = Context::Br.current
       unless branch.include? 'hotfix'
         print "You are not in hotfix branch!\n"
@@ -14,7 +16,7 @@ class DeployAction
       cmds = []
 
       if Context::Code.has_changes?
-        cmds << "git add . && git commit -a -m '##{task} #{comment}' #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
+        cmds << "git add . && git commit -a -m '##{task} #{comment}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
       end
 
       merge_branches.each do |merge_branch|
