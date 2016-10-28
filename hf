@@ -9,12 +9,13 @@ PROJECT_DIR = `pwd`.gsub("\n", '')
 
 require 'yaml'
 require ROOT_DIR + '/context.rb'
+require ROOT_DIR + '/config.rb'
 require ROOT_DIR + '/remote.rb'
 require ROOT_DIR + '/exec_cli.rb'
 require ROOT_DIR + '/deploy_action.rb'
 require ROOT_DIR + '/checkout_action.rb'
 require ROOT_DIR + '/delete_merged_action.rb'
-
+require ROOT_DIR + '/config_action.rb'
 
 def help_action
   print "Version: #{VERSION}" + "\n\n"
@@ -24,6 +25,7 @@ def help_action
   print 'hf save master develop "its a comment"' + "\n"
   print 'hf deploy master develop "its a comment"' + "\n"
   print 'hf delete-merged' + "\n"
+  print 'hf config' + "\n"
   print 'hf self-update [VERSION]' + "\n"
   print 'hf sync' + "\n"
   print "\n"
@@ -80,6 +82,10 @@ def run_actions
 
   if args[0] == 'deploy'
     return DeployAction.(args, options)
+  end
+
+  if args[0] == 'config'
+    return ConfigAction.(args, options)
   end
 
   if args[0] == 'sync'

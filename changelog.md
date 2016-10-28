@@ -31,3 +31,7 @@ Deploy feature
 
 - Switch branches during deploy
 - Autopull hotfix/xxx branch on save & deploy
+
+### 1.0.8
+
+- Add `hf config` command
