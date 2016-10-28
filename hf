@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '1.0.7'
+VERSION = '1.0.8'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
@@ -36,6 +36,12 @@ def help_action
 end
 
 def save_action args, options
+  comment = args.last == 'save' || branch_exists?(args.last) ? nil : args.last
+  if comment.include?('"') || comment.include?("'")
+    print "Invalid comment. Try to avoid ' and \" symbols or fix it in pull request =)" + "\n"
+    exit
+  end
+
   Remote::Br.update
 
   branch = current_branch
@@ -45,7 +51,7 @@ def save_action args, options
   end
 
   task = branch.scan(/\/([^\/]+)/)[0][0]
-  comment = args.last == 'save' || branch_exists?(args.last) ? nil : args.last
+
   merge_branches = args[1..-1].select{|arg| arg != comment }
   cmds = []
 

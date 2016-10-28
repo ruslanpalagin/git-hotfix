@@ -35,3 +35,4 @@ Deploy feature
 ### 1.0.8
 
 - Add `hf config` command
+- Validate comment
