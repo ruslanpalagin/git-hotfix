@@ -56,7 +56,7 @@ class DeployAction
 
     def comment args
       comment = args.last == 'deploy' || Context::Br.exists?(args.last) ? nil : args.last
-      if comment.include?('"') || comment.include?("'")
+      if comment != nil && (comment.include?('"') || comment.include?("'"))
         print "Invalid comment. Try to avoid ' and \" symbols or fix it in pull request =)" + "\n"
         exit
       end
