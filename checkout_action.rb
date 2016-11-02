@@ -3,7 +3,7 @@ class CheckoutAction
   class << self
     def call args, options
       name = args.first
-      new_branch = "hotfix/#{name}"
+      new_branch = "#{Config.branch_dir}/#{name}"
 
       cmds = []
 

@@ -13,6 +13,7 @@ require ROOT_DIR + '/config.rb'
 require ROOT_DIR + '/remote.rb'
 require ROOT_DIR + '/exec_cli.rb'
 require ROOT_DIR + '/deploy_action.rb'
+require ROOT_DIR + '/save_action.rb'
 require ROOT_DIR + '/checkout_action.rb'
 require ROOT_DIR + '/delete_merged_action.rb'
 require ROOT_DIR + '/config_action.rb'
@@ -35,46 +36,6 @@ def help_action
   print "\n"
 end
 
-def save_action args, options
-  comment = args.last == 'save' || branch_exists?(args.last) ? nil : args.last
-  if comment != nil && (comment.include?('"') || comment.include?("'"))
-    print "Invalid comment. Try to avoid ' and \" symbols or fix it in pull request =)" + "\n"
-    exit
-  end
-
-  Remote::Br.update
-
-  branch = current_branch
-  unless branch.include? 'hotfix'
-    print "You are not in hotfix branch!\n"
-    exit
-  end
-
-  task = branch.scan(/\/([^\/]+)/)[0][0]
-
-  merge_branches = args[1..-1].select{|arg| arg != comment }
-  cmds = []
-
-  if has_changes?
-    # && git pull origin #{branch}
-    cmds << "git add . && git commit -a -m '##{task} #{comment}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
-  end
-
-  merge_branches.each do |merge_branch|
-    cmds << "git checkout #{merge_branch} && git pull origin #{merge_branch} && git merge #{branch} #{options[:no_push] ? nil : "&& git push origin #{merge_branch}"}"
-  end
-
-  cmds << "git checkout #{branch}" if merge_branches.any?
-
-  cmds.each{|cmd| print cmd  + "\n"}
-  print 'Ok? (y/n) [y]:' + "\n"
-  key = STDIN.gets.chomp
-  if key == '' || key == 'y'
-    cli cmds
-  end
-end
-
-
 def run_actions
   args = ARGV.select{|arg| arg[0] != '-' || arg.include?(' ') }
   flags = ARGV.select{|arg| arg[0] == '-' && !arg.include?(' ') }
@@ -82,7 +43,7 @@ def run_actions
   options[:no_push] = flags.include?('--no-push') || flags.include?('--local')
 
   if args[0] == 'save'
-    save_action args, options
+    return SaveAction.(args, options)
     exit
   end
 

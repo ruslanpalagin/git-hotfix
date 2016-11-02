@@ -1,5 +1,4 @@
-
-class DeployAction
+class SaveAction
   class << self
     def call args, options
       comment = comment(args)
@@ -23,21 +22,6 @@ class DeployAction
         cmds << "git checkout #{merge_branch} && git pull origin #{merge_branch} && git merge #{branch} #{options[:no_push] ? nil : "&& git push origin #{merge_branch}"}"
       end
 
-      has_deploy = false
-      merge_branches.each do |merge_branch|
-        _deploy_cmd = deploy_cmd(merge_branch)
-        cmds << deploy_cmd(merge_branch) if _deploy_cmd
-        has_deploy = has_deploy || !!_deploy_cmd
-      end
-
-      if has_deploy
-        print "---|-------------------------------------------------------------|---\n"
-        print "---|--------------------------DEPLOY-----------------------------|---\n"
-        print "---|-------------------------------------------------------------|---\n"
-        print "---|-----------------------from .hf.yml--------------------------|---\n"
-        print "---|-------------------------------------------------------------|---\n"
-      end
-
       cmds << "git checkout #{branch}" if merge_branches.any?
       { cmds: cmds, danger: true }
     end
@@ -46,11 +30,6 @@ class DeployAction
 
     def merge_branches args
       branches = args[1..-1].select{|arg| arg != comment(args) }
-      if branches.size == 0
-        print "Deploy branches not specified." + "\n"
-        print "Try something like $ hf deploy master 'foo' " + "\n"
-        exit
-      end
       branches
     end
 

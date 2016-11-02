@@ -12,26 +12,27 @@ class Config
       get[:mode] == 'feature'
     end
 
+    def branch_dir
+      hotfix? ? 'hotfix' : 'feature'
+    end
+
     def get
-      if exists?
-        data
-      else
-        {}
-      end
+      result = exists? ? data : {}
+      result[:mode] ||= 'hotfix'
     end
 
     def main_branch
-      hotfix? ? :master : :develop
+      hotfix? ? 'master' : 'develop'
+    end
+
+    def exists?
+      File.exists? file_location
     end
 
     protected
 
     def data
       YAML.load(file_content) || {}
-    end
-
-    def exists?
-      File.exists? file_location
     end
 
     def file_location
