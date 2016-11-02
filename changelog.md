@@ -36,3 +36,7 @@ Deploy feature
 
 - Add `hf config` command
 - Validate comment
+
+### 1.1.0
+
+- Add feature mode.
