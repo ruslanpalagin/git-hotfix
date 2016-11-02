@@ -1,14 +1,32 @@
 class Config
   class << self
     def call
+      get
+    end
+
+    def hotfix?
+      get[:mode] == 'hotfix'
+    end
+
+    def feature?
+      get[:mode] == 'feature'
+    end
+
+    def get
       if exists?
-        get
+        data
       else
         {}
       end
     end
 
-    def get
+    def main_branch
+      hotfix? ? :master : :develop
+    end
+
+    protected
+
+    def data
       YAML.load(file_content) || {}
     end
 

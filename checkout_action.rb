@@ -27,8 +27,8 @@ class CheckoutAction
       if Context::Br.exists? new_branch
         cmds << "git checkout #{new_branch}"
       else
-        cmds << "git checkout master" unless Context::Br.current == 'master'
-        cmds << "git pull origin master"
+        cmds << "git checkout #{Config.main_branch}" unless Context::Br.current == Config.main_branch
+        cmds << "git pull origin #{Config.main_branch}"
         cmds << "git checkout -b #{new_branch}"
       end
 

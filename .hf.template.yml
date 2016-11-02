@@ -1,3 +1,6 @@
 deploy:
-  master: "echo 'yey master!!!'"
-  develop: "echo 'yey develop!!!'"
+  master: "echo $(curl -s http://whatthecommit.com/index.txt)"
+  develop: "echo $(curl -s http://whatthecommit.com/index.txt)"
+
+# hotfix or feature
+mode: hotfix
