@@ -5,11 +5,11 @@ class Config
     end
 
     def hotfix?
-      get[:mode] == 'hotfix'
+      get['mode'] == 'hotfix'
     end
 
     def feature?
-      get[:mode] == 'feature'
+      get['mode'] == 'feature'
     end
 
     def branch_dir
@@ -18,7 +18,8 @@ class Config
 
     def get
       result = exists? ? data : {}
-      result[:mode] ||= 'hotfix'
+      result['mode'] = result['mode'] || 'hotfix'
+      result
     end
 
     def main_branch
@@ -32,7 +33,7 @@ class Config
     protected
 
     def data
-      YAML.load(file_content) || {}
+      (YAML.load(file_content) || {})
     end
 
     def file_location
