@@ -14,7 +14,7 @@ module Context
       end
 
       def task_name
-        current ? current.scan(/\/([^\/]+)/)[0][0] : nil
+        current ? current.scan(/\/([^\/]+)/).flatten : nil
       end
 
       protected
