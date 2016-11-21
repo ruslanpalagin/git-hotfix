@@ -14,13 +14,12 @@ module Context
       end
 
       def task_name
-        if current
-          r = current.scan(/\/([^\/]+)/)
-          r = r[0][0] if r
-          r
-        else
-          nil
-        end
+        r = current.scan(/\/([^\/]+)/)
+        r = r[0][0] if r
+        r
+      rescue => e
+        p e.to_s unless e.to_s == "undefined method `[]' for nil:NilClass"
+        nil
       end
 
       protected
