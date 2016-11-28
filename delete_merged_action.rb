@@ -26,7 +26,7 @@ class DeleteMergedAction
     def list
       all_possible_merged = `git branch -a --merged`.split("\n").map{|br| br.strip }
                          .select{|br| !(br.include?('master') || br.include?('dev')) }
-                         .select{|br| br.include? 'hotfix' }
+                         .select{|br| br.include?('hotfix') || br.include?('feature') }
                          .map{|br| br.gsub('remotes/origin/', '') }
       # p all_possible_merged
 
