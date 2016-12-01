@@ -2,9 +2,10 @@ class DeleteMergedAction
   class << self
     def call args, options
       cmds = []
+
       print Remote::Br.update
 
-      print `git checkout master`
+      print `git checkout #{Config.main_branch}`
       print `git remote prune origin`
 
       locals, remotes = list
@@ -13,7 +14,7 @@ class DeleteMergedAction
       end
 
       remotes.each do |br|
-        cmds << "git checkout #{br} && git checkout master && git branch -d #{br} && git push origin --delete #{br}"
+        cmds << "git checkout #{br} && git checkout #{Config.main_branch} && git branch -d #{br} && git push origin --delete #{br}"
       end
 
       print `git remote prune origin`
