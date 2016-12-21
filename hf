@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '1.1.0'
+VERSION = '1.1.1'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
@@ -17,6 +17,7 @@ require ROOT_DIR + '/save_action.rb'
 require ROOT_DIR + '/checkout_action.rb'
 require ROOT_DIR + '/delete_merged_action.rb'
 require ROOT_DIR + '/config_action.rb'
+require ROOT_DIR + '/sync_action.rb'
 
 def help_action
   print "Version: #{VERSION}" + "\n\n"
@@ -56,7 +57,7 @@ def run_actions
   end
 
   if args[0] == 'sync'
-    sync_master_action
+    return SyncAction.(args, options)
     exit
   end
 
