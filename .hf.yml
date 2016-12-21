@@ -3,4 +3,4 @@ deploy:
   develop: "echo $(curl -s http://whatthecommit.com/index.txt)"
 
 # hotfix or feature
-mode: feature
+mode: hotfix
