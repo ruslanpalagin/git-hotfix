@@ -40,3 +40,7 @@ Deploy feature
 ### 1.1.0
 
 - Add feature mode.
+
+### 1.1.2
+
+- Add config nested search

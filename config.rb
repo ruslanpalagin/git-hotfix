@@ -1,4 +1,6 @@
 class Config
+  MAX_NESTING = 20
+
   class << self
     def call
       get
@@ -37,6 +39,12 @@ class Config
     end
 
     def file_location
+      MAX_NESTING.times do |i|
+        dir_nesting = '/..' * i
+        file = PROJECT_DIR + dir_nesting + '/.hf.yml'
+        return file if File.exists? file
+      end
+
       PROJECT_DIR + '/.hf.yml'
     end
 
