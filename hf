@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '1.1.4'
+VERSION = '1.1.5'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
@@ -20,6 +20,7 @@ require ROOT_DIR + '/config_action.rb'
 require ROOT_DIR + '/sync_action.rb'
 require ROOT_DIR + '/actions/reset_action.rb'
 require ROOT_DIR + '/actions/get_action.rb'
+require ROOT_DIR + '/actions/st_action.rb'
 
 def help_action
   print "Version: #{VERSION}" + "\n\n"
@@ -34,6 +35,7 @@ def help_action
   print 'hf sync' + "\n"
   print 'hf reset' + "\n"
   print 'hf get' + "\n"
+  print 'hf st' + "\n"
   print "\n"
   print 'Options: ' + "\n"
   print 'No push: (--no-push|--local) prevents pushes to remote' + "\n"
@@ -54,6 +56,7 @@ def run_actions
   return DeleteMergedAction.(args, options) if args[0] == 'delete-merged'
   return ResetAction.(args, options) if args[0] == 'reset'
   return GetAction.(args, options) if args[0] == 'get'
+  return StAction.(args, options) if args[0] == 'st'
 
   if args[0] == 'self-update'
     self_update_action

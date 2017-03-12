@@ -61,33 +61,39 @@ hf save master
 hf save master develop "foo"
 ```
 
-###Same as "save" but with running deploy scripts from .hf.yml
-
+###Same as "save" + running deploy scripts from .hf.yml
+You can change deploy commands with `hf config` or in .hf.yml
 ```
 hf deploy master develop "foo"
 ```
 
-#### .hf.yml example
-deploy:
-  master: "cap production deploy"
-  develop: "cap staging deploy"
-
 ###Config deployment & mode
 
-###Merge master into 'hotfix/123'
+###Merge main branch into current branch
+You can change main branch with `hf config` or in .hf.yml
 
 ```
-hf sync master
+hf sync
 ```
 
-###Remove all merged (into master) hotfix branches (local & remote):
-
+###Remove all merged (into main branch) hotfix branches (local & remote):
+You can change main branch with `hf config` or in .hf.yml
 ```
 hf delete-merged
 ```
 
+###Update current branch with remote version
+```
+hf get
+```
 
+###Browse git status
+
+```
+hf st
+```
 
 # TODO
 
-- remove single hotfix
+- remove single hotfix from local & remote
+- cli autocomplete

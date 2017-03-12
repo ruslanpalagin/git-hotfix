@@ -48,3 +48,11 @@ Deploy feature
 ### 1.1.3
 
 - Add `hf reset` command to remove all changes
+
+### 1.1.4
+
+- Add `hf get` command to get current branch from remote
+
+### 1.1.5
+
+- Add `hf st` command to get git status
