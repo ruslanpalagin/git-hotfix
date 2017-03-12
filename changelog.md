@@ -44,3 +44,7 @@ Deploy feature
 ### 1.1.2
 
 - Add config nested search
+
+### 1.1.3
+
+- Add `hf reset` command to remove all changes
