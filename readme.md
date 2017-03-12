@@ -10,11 +10,7 @@ hf self-update
 or
 sudo rm /usr/bin/hf && git clone https://github.com/r1dd1ck777/git-hotfix.git && cd git-hotfix && chmod +x hf && sudo ln -s $PWD/hf /usr/bin/hf
 
-# Ads
-
-Use https://gist.github.com/Kris-Simpson/ab274db3ca7f5160d5ad4bbba3517547 to show branch in cli directory! It's great!)
-
-# Use
+# Usage hints
 
 ```
 hf TASK_NUMBER
@@ -22,6 +18,10 @@ hf save [branches]+ ["comment"]
 hf deploy [branches]+ ["comment"]
 hf delete-merged
 hf sync
+hf self-update
+hf config
+hf reset
+hf get
 ```
 
 # Examples
@@ -72,6 +72,7 @@ deploy:
   master: "cap production deploy"
   develop: "cap staging deploy"
 
+###Config deployment & mode
 
 ###Merge master into 'hotfix/123'
 
@@ -85,7 +86,8 @@ hf sync master
 hf delete-merged
 ```
 
+
+
 # TODO
 
 - remove single hotfix
-- remove old & merged hotfixes

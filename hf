@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '1.1.3'
+VERSION = '1.1.4'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
@@ -19,6 +19,7 @@ require ROOT_DIR + '/delete_merged_action.rb'
 require ROOT_DIR + '/config_action.rb'
 require ROOT_DIR + '/sync_action.rb'
 require ROOT_DIR + '/actions/reset_action.rb'
+require ROOT_DIR + '/actions/get_action.rb'
 
 def help_action
   print "Version: #{VERSION}" + "\n\n"
@@ -32,6 +33,7 @@ def help_action
   print 'hf self-update [VERSION]' + "\n"
   print 'hf sync' + "\n"
   print 'hf reset' + "\n"
+  print 'hf get' + "\n"
   print "\n"
   print 'Options: ' + "\n"
   print 'No push: (--no-push|--local) prevents pushes to remote' + "\n"
@@ -45,38 +47,20 @@ def run_actions
   options = {}
   options[:no_push] = flags.include?('--no-push') || flags.include?('--local')
 
-  if args[0] == 'save'
-    return SaveAction.(args, options)
-  end
-
-  if args[0] == 'deploy'
-    return DeployAction.(args, options)
-  end
-
-  if args[0] == 'config'
-    return ConfigAction.(args, options)
-  end
-
-  if args[0] == 'sync'
-    return SyncAction.(args, options)
-  end
+  return SaveAction.(args, options) if args[0] == 'save'
+  return DeployAction.(args, options) if args[0] == 'deploy'
+  return ConfigAction.(args, options) if args[0] == 'config'
+  return SyncAction.(args, options) if args[0] == 'sync'
+  return DeleteMergedAction.(args, options) if args[0] == 'delete-merged'
+  return ResetAction.(args, options) if args[0] == 'reset'
+  return GetAction.(args, options) if args[0] == 'get'
 
   if args[0] == 'self-update'
     self_update_action
     exit
   end
 
-  if args[0] == 'delete-merged'
-    return DeleteMergedAction.(args, options)
-  end
-
-  if args[0] == 'reset'
-    return ResetAction.(args, options)
-  end
-
-  if args.count == 1
-    return CheckoutAction.(args, options)
-  end
+  return CheckoutAction.(args, options) if args.count == 1
 
   if args.count == 0
     help_action
@@ -84,43 +68,11 @@ def run_actions
   end
 end
 
-def sync_master_action
-  cli "git merge master"
-end
-
 def self_update_action
   checkout = ARGV[1] || :master
   dir = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }
   dir = dir.scan(/\->\s(.*)\/hf/)[0][0]
   `cd #{dir} && git pull origin #{checkout}`
-end
-
-def current_branch
-  branches_raw.detect{|br| br.include? '*'}.gsub('*', '').strip
-end
-
-def cli cmds, options = {}
-  options[:silent] = false
-  cmds = [cmds] unless cmds.is_a? Array
-  exec cmds.join(' && ')
-end
-
-def branches_raw
-  list = `git branch`
-  list.split("\n")
-end
-
-def branches
-  branches_raw.map{|b| b.gsub('*', '').strip }
-end
-
-def branch_exists? name
-  branches.include? name
-end
-
-def has_changes?
-  status = `git status`
-  !status.include? 'nothing to commit, working directory clean'
 end
 
 def main

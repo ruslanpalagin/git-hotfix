@@ -1,6 +1,13 @@
+# write here cli command to be run on each "hf deploy [...BRANCHES]"
 deploy:
-  master: "echo $(curl -s http://whatthecommit.com/index.txt)"
-  develop: "echo $(curl -s http://whatthecommit.com/index.txt)"
+  master: "echo 'I will speak on: hf deploy master' "
+  develop: "echo 'I will speak on: hf deploy develop' "
 
-# hotfix or feature
+# mode used to select "main branch".
+# 1. hf [TASK_NAME] - will create new branches from "main branch"
+# 2. hf sync - will get "main branch" from remote and merge it into current branch
+# 3. hf delete-merged - will detect merged into "main branch" branches and try to delete it
+#
+# hotfix: main branch => "master"
+# feature: main branch => "develop"
 mode: hotfix
