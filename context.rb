@@ -35,7 +35,7 @@ module Context
     class << self
       def has_changes?
         status = `git status`
-        !status.include? 'nothing to commit, working directory clean'
+        !status.include? 'nothing to commit'
       end
     end
   end
