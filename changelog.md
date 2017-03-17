@@ -1,3 +1,9 @@
+### 1.1.6
+
+- fix git status checking
+
+#--------------------------
+
 ### 1.0.2
 
 ```
@@ -56,3 +62,6 @@ Deploy feature
 ### 1.1.5
 
 - Add `hf st` command to get git status
+
+
+
