@@ -35,7 +35,11 @@ module Context
     class << self
       def has_changes?
         status = `git status`
-        !status.include? 'nothing to commit'
+        mapping = {
+            'ru' => 'нечего коммитить',
+            'en' => 'nothing to commit'
+        }
+        !status.include? mapping[Config.locale]
       end
     end
   end

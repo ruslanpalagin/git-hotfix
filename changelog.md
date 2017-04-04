@@ -1,3 +1,7 @@
+## 1.1.7
+
+- Add git locale
+
 ### 1.1.6
 
 - fix git status checking

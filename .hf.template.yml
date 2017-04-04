@@ -11,3 +11,4 @@ deploy:
 # hotfix: main branch => "master"
 # feature: main branch => "develop"
 mode: hotfix
+locale: en

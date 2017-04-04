@@ -10,6 +10,10 @@ class Config
       get['mode'] == 'hotfix'
     end
 
+    def locale
+      get['locale']
+    end
+
     def feature?
       get['mode'] == 'feature'
     end
@@ -21,6 +25,7 @@ class Config
     def get
       result = exists? ? data : {}
       result['mode'] = result['mode'] || 'hotfix'
+      result['locale'] = result['locale'] || 'en'
       result
     end
 
