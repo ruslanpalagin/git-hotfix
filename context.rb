@@ -35,7 +35,10 @@ module Context
     class << self
       def has_changes?
         status = `git status`
-        !status.include? 'nothing to commit'
+        p "locale = #{Config.locale} \n"
+        Config.locale == 'en' ? (!status.include? 'nothing to commit') : false
+        Config.locale == 'ru' ? (!status.include? 'нечего коммитить') : false
+
       end
     end
   end

@@ -4,3 +4,4 @@ deploy:
 
 # hotfix or feature
 mode: hotfix
+locale: ru

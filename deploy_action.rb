@@ -2,6 +2,7 @@
 class DeployAction
   class << self
     def call args, options
+
       comment = comment(args)
       task = Context::Br.task_name
       merge_branches = merge_branches(args)
