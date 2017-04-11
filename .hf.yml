@@ -1,7 +1,9 @@
 deploy:
-  master: "echo $(curl -s http://whatthecommit.com/index.txt)"
-  develop: "echo $(curl -s http://whatthecommit.com/index.txt)"
+  master: "echo 'I will speak on: hf deploy master' "
+  develop: "echo 'I will speak on: hf deploy develop' "
+
+before_deploy_commit: "echo 'Before committing with deploy' "
 
 # hotfix or feature
 mode: hotfix
-locale: ru
+locale: en

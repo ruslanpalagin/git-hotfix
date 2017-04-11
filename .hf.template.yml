@@ -3,6 +3,9 @@ deploy:
   master: "echo 'I will speak on: hf deploy master' "
   develop: "echo 'I will speak on: hf deploy develop' "
 
+# write here cli command to be run before committing on each "hf deploy [...BRANCHES]"
+before_deploy_commit: "echo 'Before commit' "
+
 # mode used to select "main branch".
 # 1. hf [TASK_NAME] - will create new branches from "main branch"
 # 2. hf sync - will get "main branch" from remote and merge it into current branch

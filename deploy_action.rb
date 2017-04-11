@@ -16,6 +16,8 @@ class DeployAction
 
       Remote::Br.update
 
+      cmds = cmds + cmds_before_commit_hook
+
       if Context::Code.has_changes?
         cmds << "git add . && git commit -a -m '##{task} #{comment}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
       end
@@ -44,6 +46,16 @@ class DeployAction
     end
 
     protected
+
+    def cmds_before_commit_hook
+      cmds = []
+      before_deploy_commit_config = Config.get['before_deploy_commit']
+      if before_deploy_commit_config != nil && before_deploy_commit_config != ''
+        cmds << before_deploy_commit_config
+      end
+
+      cmds
+    end
 
     def merge_branches args
       branches = args[1..-1].select{|arg| arg != comment(args) }
