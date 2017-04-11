@@ -75,7 +75,7 @@ def self_update_action
   checkout = ARGV[1] || :master
   dir = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }
   dir = dir.scan(/\->\s(.*)\/hf/)[0][0]
-  `cd #{dir} && git pull origin #{checkout}`
+  `cd #{dir} && git pull && git checkout #{checkout} && git pull origin #{checkout}`
 end
 
 def main
