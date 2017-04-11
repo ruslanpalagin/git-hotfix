@@ -1,3 +1,8 @@
+## 1.1.8
+
+- add hook "before_deploy_commit" to .hf.yml
+- fix self-update if we on in master (contributing to hotfix)
+
 ## 1.1.7
 
 - Add git locale
