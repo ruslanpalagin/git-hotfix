@@ -14,14 +14,15 @@ sudo rm /usr/bin/hf && git clone https://github.com/r1dd1ck777/git-hotfix.git &&
 
 ```
 hf TASK_NUMBER
-hf save [branches]+ ["comment"]
-hf deploy [branches]+ ["comment"]
+hf save [branches]+ ["comment"] [--local] [--no-push]
+hf deploy [branches]+ ["comment"] [--ac] [--always-commit] [--local] [--no-push]
 hf delete-merged
 hf sync
 hf self-update
 hf config
 hf reset
 hf get
+hf st
 ```
 
 # Examples
