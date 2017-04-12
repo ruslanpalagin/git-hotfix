@@ -48,6 +48,7 @@ def run_actions
   flags = ARGV.select{|arg| arg[0] == '-' && !arg.include?(' ') }
   options = {}
   options[:no_push] = flags.include?('--no-push') || flags.include?('--local')
+  options[:always_commit] = flags.include?('--ac') || flags.include?('--always-commit')
 
   return SaveAction.(args, options) if args[0] == 'save'
   return DeployAction.(args, options) if args[0] == 'deploy'

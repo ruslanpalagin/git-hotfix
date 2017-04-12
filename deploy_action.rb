@@ -18,7 +18,7 @@ class DeployAction
 
       cmds = cmds + cmds_before_commit_hook
 
-      if Context::Code.has_changes?
+      if Context::Code.has_changes? || options[:always_commit]
         cmds << "git add . && git commit -a -m '##{task} #{comment}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
       end
 
