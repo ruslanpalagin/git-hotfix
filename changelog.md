@@ -1,3 +1,7 @@
+## 1.1.9
+
+- add "--always-commit", "--ac" option. This will skip checking of code changing.
+
 ## 1.1.8
 
 - add hook "before_deploy_commit" to .hf.yml
