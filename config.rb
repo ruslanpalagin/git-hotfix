@@ -37,12 +37,6 @@ class Config
       File.exists? file_location
     end
 
-    protected
-
-    def data
-      (YAML.load(file_content) || {})
-    end
-
     def file_location
       MAX_NESTING.times do |i|
         dir_nesting = '/..' * i
@@ -51,6 +45,12 @@ class Config
       end
 
       PROJECT_DIR + '/.hf.yml'
+    end
+
+    protected
+
+    def data
+      (YAML.load(file_content) || {})
     end
 
     def file_content

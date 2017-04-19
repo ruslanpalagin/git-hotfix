@@ -43,7 +43,7 @@ class SaveAction
     end
 
     def deploy_cmd merge_branch
-      yml_file = PROJECT_DIR + '/.hf.yml'
+      yml_file = Config.file_location
 
       hash = YAML.load File.read(yml_file) if File.exists? yml_file
 
