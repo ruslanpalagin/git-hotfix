@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '1.1.10'
+VERSION = '1.1.11'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
@@ -13,7 +13,6 @@ require ROOT_DIR + '/config.rb'
 require ROOT_DIR + '/remote.rb'
 require ROOT_DIR + '/exec_cli.rb'
 require ROOT_DIR + '/deploy_action.rb'
-require ROOT_DIR + '/save_action.rb'
 require ROOT_DIR + '/checkout_action.rb'
 require ROOT_DIR + '/delete_merged_action.rb'
 require ROOT_DIR + '/config_action.rb'
@@ -21,6 +20,7 @@ require ROOT_DIR + '/sync_action.rb'
 require ROOT_DIR + '/actions/reset_action.rb'
 require ROOT_DIR + '/actions/get_action.rb'
 require ROOT_DIR + '/actions/st_action.rb'
+require ROOT_DIR + '/actions/save_action.rb'
 
 def help_action
   print "Version: #{VERSION}" + "\n\n"

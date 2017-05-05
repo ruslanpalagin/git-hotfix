@@ -36,7 +36,7 @@ class SaveAction
     def comment args
       comment = args.last == 'deploy' || Context::Br.exists?(args.last) ? nil : args.last
       if comment != nil && (comment.include?('"') || comment.include?("'"))
-        print "Invalid comment. Try to avoid ' and \" symbols or fix it in pull request =)" + "\n"
+        print "Invalid comment. Try to avoid ' and \" symbols or fix it in a pull request =)" + "\n"
         exit
       end
       comment
