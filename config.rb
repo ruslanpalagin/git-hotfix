@@ -14,6 +14,10 @@ class Config
       get['locale']
     end
 
+    def colorize?
+      get['colorize']
+    end
+
     def feature?
       get['mode'] == 'feature'
     end

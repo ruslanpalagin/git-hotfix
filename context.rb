@@ -18,7 +18,7 @@ module Context
         r = r[0][0] if r
         r
       rescue => e
-        p e.to_s unless e.to_s == "undefined method `[]' for nil:NilClass"
+        p e.to_s.red unless e.to_s == "undefined method `[]' for nil:NilClass"
         nil
       end
 
