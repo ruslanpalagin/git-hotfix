@@ -30,7 +30,7 @@ class Config
       result = exists? ? data : {}
       result['mode'] = result['mode'] || 'hotfix'
       result['locale'] = result['locale'] || 'en'
-      result['colorize'] = result['colorize'] || true
+      result['colorize'] = result['colorize'].nil? ^ !result['colorize'] ^ true
       result
     end
 
