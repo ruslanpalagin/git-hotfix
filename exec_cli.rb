@@ -14,13 +14,13 @@ class ExecCli
 
       if options[:danger]
         print "\n"
-        print "Following commands will be executed:\n"
+        print "Following commands will be executed:".bold + "\n"
         print "\n"
       end
 
       cmds = [cmds] unless cmds.is_a? Array
       cmds = cmds.select{|cmd| cmd != nil }
-      cmds.each{|cmd| print cmd  + "\n"}
+      cmds.each{|cmd| print cmd.green  + "\n"}
 
       if options[:danger]
         print "\n"

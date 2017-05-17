@@ -8,7 +8,7 @@ class SaveAction
 
       branch = Context::Br.current
       unless branch.include? Config.branch_dir
-        print "You are not in #{Config.branch_dir} branch!\n"
+        print "You are not in #{Config.branch_dir} branch!".yellow + "\n"
         exit
       end
 
@@ -36,7 +36,7 @@ class SaveAction
     def comment args
       comment = args.last == 'deploy' || Context::Br.exists?(args.last) ? nil : args.last
       if comment != nil && (comment.include?('"') || comment.include?("'"))
-        print "Invalid comment. Try to avoid ' and \" symbols or fix it in a pull request =)" + "\n"
+        print "Invalid comment. Try to avoid ' and \" symbols or fix it in a pull request =)".red + "\n"
         exit
       end
       comment

@@ -34,11 +34,11 @@ class DeployAction
       end
 
       if has_deploy
-        print "---|-------------------------------------------------------------|---\n"
-        print "---|--------------------------DEPLOY-----------------------------|---\n"
-        print "---|-------------------------------------------------------------|---\n"
-        print "---|-----------------------from .hf.yml--------------------------|---\n"
-        print "---|-------------------------------------------------------------|---\n"
+        print "---|-------------------------------------------------------------|---\n".bold
+        print "---|--------------------------DEPLOY-----------------------------|---\n".bold
+        print "---|-------------------------------------------------------------|---\n".bold
+        print "---|-----------------------from .hf.yml--------------------------|---\n".bold
+        print "---|-------------------------------------------------------------|---\n".bold
       end
 
       cmds << "git checkout #{branch}" if merge_branches.any?
@@ -60,8 +60,8 @@ class DeployAction
     def merge_branches args
       branches = args[1..-1].select{|arg| arg != comment(args) }
       if branches.size == 0
-        print "Deploy branches not specified." + "\n"
-        print "Try something like $ hf deploy master 'foo' " + "\n"
+        print "Deploy branches not specified.".yellow + "\n"
+        print "Try something like $ hf deploy master 'foo' ".yellow + "\n"
         exit
       end
       branches
@@ -70,7 +70,7 @@ class DeployAction
     def comment args
       comment = args.last == 'deploy' || Context::Br.exists?(args.last) ? nil : args.last
       if comment != nil && (comment.include?('"') || comment.include?("'"))
-        print "Invalid comment. Try to avoid ' and \" symbols or fix it in pull request =)" + "\n"
+        print "Invalid comment. Try to avoid ' and \" symbols or fix it in pull request =)".yellow + "\n"
         exit
       end
       comment

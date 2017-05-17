@@ -1,0 +1,250 @@
+diff --git .hf.yml .hf.yml
+index 1d7198b..c466b51 100644
+--- .hf.yml
++++ .hf.yml
+@@ -6,4 +6,5 @@ before_deploy_commit: "echo 'Before committing with deploy' "
+ 
+ # hotfix or feature
+ mode: hotfix
+-locale: en
+\ No newline at end of file
++locale: en
++colorize: true
+\ No newline at end of file
+diff --git actions/get_action.rb actions/get_action.rb
+index a7d91cb..6e785e2 100644
+--- actions/get_action.rb
++++ actions/get_action.rb
+@@ -4,7 +4,7 @@ class GetAction
+       cmds = []
+ 
+       if Context::Code.has_changes?
+-        print "Please commit all changes before GET action!\n"
++        print "Please commit all changes before GET action!".yellow + "\n"
+         { cmds: cmds, danger: false }
+       else
+         cmds << "git pull origin #{Context::Br.current}"
+diff --git actions/save_action.rb actions/save_action.rb
+index 689add9..66a590d 100644
+--- actions/save_action.rb
++++ actions/save_action.rb
+@@ -8,7 +8,7 @@ class SaveAction
+ 
+       branch = Context::Br.current
+       unless branch.include? Config.branch_dir
+-        print "You are not in #{Config.branch_dir} branch!\n"
++        print "You are not in #{Config.branch_dir} branch!".yellow + "\n"
+         exit
+       end
+ 
+@@ -36,7 +36,7 @@ class SaveAction
+     def comment args
+       comment = args.last == 'deploy' || Context::Br.exists?(args.last) ? nil : args.last
+       if comment != nil && (comment.include?('"') || comment.include?("'"))
+-        print "Invalid comment. Try to avoid ' and \" symbols or fix it in a pull request =)" + "\n"
++        print "Invalid comment. Try to avoid ' and \" symbols or fix it in a pull request =)".red + "\n"
+         exit
+       end
+       comment
+diff --git config.rb config.rb
+index 10133ce..4dd328d 100644
+--- config.rb
++++ config.rb
+@@ -14,6 +14,10 @@ class Config
+       get['locale']
+     end
+ 
++    def colorize?
++      get['colorize']
++    end
++
+     def feature?
+       get['mode'] == 'feature'
+     end
+diff --git context.rb context.rb
+index 759e1b1..53a93ea 100644
+--- context.rb
++++ context.rb
+@@ -18,7 +18,7 @@ module Context
+         r = r[0][0] if r
+         r
+       rescue => e
+-        p e.to_s unless e.to_s == "undefined method `[]' for nil:NilClass"
++        p e.to_s.red unless e.to_s == "undefined method `[]' for nil:NilClass"
+         nil
+       end
+ 
+diff --git deploy_action.rb deploy_action.rb
+index e118542..427a43f 100644
+--- deploy_action.rb
++++ deploy_action.rb
+@@ -34,11 +34,11 @@ class DeployAction
+       end
+ 
+       if has_deploy
+-        print "---|-------------------------------------------------------------|---\n"
+-        print "---|--------------------------DEPLOY-----------------------------|---\n"
+-        print "---|-------------------------------------------------------------|---\n"
+-        print "---|-----------------------from .hf.yml--------------------------|---\n"
+-        print "---|-------------------------------------------------------------|---\n"
++        print "---|-------------------------------------------------------------|---\n".bold
++        print "---|--------------------------DEPLOY-----------------------------|---\n".bold
++        print "---|-------------------------------------------------------------|---\n".bold
++        print "---|-----------------------from .hf.yml--------------------------|---\n".bold
++        print "---|-------------------------------------------------------------|---\n".bold
+       end
+ 
+       cmds << "git checkout #{branch}" if merge_branches.any?
+@@ -60,8 +60,8 @@ class DeployAction
+     def merge_branches args
+       branches = args[1..-1].select{|arg| arg != comment(args) }
+       if branches.size == 0
+-        print "Deploy branches not specified." + "\n"
+-        print "Try something like $ hf deploy master 'foo' " + "\n"
++        print "Deploy branches not specified.".yellow + "\n"
++        print "Try something like $ hf deploy master 'foo' ".yellow + "\n"
+         exit
+       end
+       branches
+@@ -70,7 +70,7 @@ class DeployAction
+     def comment args
+       comment = args.last == 'deploy' || Context::Br.exists?(args.last) ? nil : args.last
+       if comment != nil && (comment.include?('"') || comment.include?("'"))
+-        print "Invalid comment. Try to avoid ' and \" symbols or fix it in pull request =)" + "\n"
++        print "Invalid comment. Try to avoid ' and \" symbols or fix it in pull request =)".red + "\n"
+         exit
+       end
+       comment
+diff --git exec_cli.rb exec_cli.rb
+index 1f15fd9..966832a 100644
+--- exec_cli.rb
++++ exec_cli.rb
+@@ -14,13 +14,13 @@ class ExecCli
+ 
+       if options[:danger]
+         print "\n"
+-        print "Following commands will be executed:\n"
++        print "Following commands will be executed:".bold + "\n"
+         print "\n"
+       end
+ 
+       cmds = [cmds] unless cmds.is_a? Array
+       cmds = cmds.select{|cmd| cmd != nil }
+-      cmds.each{|cmd| print cmd  + "\n"}
++      cmds.each{|cmd| print cmd.green  + "\n"}
+ 
+       if options[:danger]
+         print "\n"
+diff --git hf hf
+index 05dde98..a04e8df 100755
+--- hf
++++ hf
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env ruby
+ 
+-VERSION = '1.1.11'
++VERSION = '1.1.12'
+ ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
+ PROJECT_DIR = `pwd`.gsub("\n", '')
+ 
+@@ -21,10 +21,11 @@ require ROOT_DIR + '/actions/reset_action.rb'
+ require ROOT_DIR + '/actions/get_action.rb'
+ require ROOT_DIR + '/actions/st_action.rb'
+ require ROOT_DIR + '/actions/save_action.rb'
++require ROOT_DIR + '/lib/string.rb'
+ 
+ def help_action
+-  print "Version: #{VERSION}" + "\n\n"
+-  print 'Examples: ' + "\n\n"
++  print "\nVersion: #{VERSION}".underlined + "\n\n"
++  print "Examples:".bold + "\n\n"
+   print 'hf 777' + "\n"
+   print 'hf save "its a comment"' + "\n"
+   print 'hf save master develop "its a comment"' + "\n"
+@@ -36,8 +37,8 @@ def help_action
+   print 'hf reset' + "\n"
+   print 'hf get' + "\n"
+   print 'hf st' + "\n"
+-  print "\n"
+-  print 'Options: ' + "\n"
++  print "\n\n"
++  print "Options: ".bold + "\n\n"
+   print 'No push: (--no-push|--local) prevents pushes to remote' + "\n"
+   print 'hf save master "its a comment" --local' + "\n"
+   print "\n"
+diff --git lib/string.rb lib/string.rb
+new file mode 100644
+index 0000000..43ca6c2
+--- /dev/null
++++ lib/string.rb
+@@ -0,0 +1,57 @@
++
++# Monkey-patching String class
++class String
++  # Foreground Colors
++
++  def black
++    colorize(self, "\e[30m")
++  end
++
++  def red
++    colorize(self, "\e[31m")
++  end
++
++  def green
++    colorize(self, "\e[32m")
++  end
++
++  def yellow
++    colorize(self, "\e[33m")
++  end
++
++  def blue
++    colorize(self, "\e[34m")
++  end
++
++  def pur
++    colorize(self, "\e[35m")
++  end
++
++  def cyan
++    colorize(self, "\e[36m")
++  end
++
++  def white
++    colorize(self, "\e[37m")
++  end
++
++  # Modifiers
++
++  def bold
++    colorize(self, "\e[1m")
++  end
++
++  def underlined
++    colorize(self, "\e[4m")
++  end
++
++  private
++
++  def colorize(text, color_code)
++    if Config.colorize?
++      "#{color_code}#{text}\e[0m"
++    else
++      text
++    end
++  end
++end
+diff --git sync_action.rb sync_action.rb
+index d76d1ec..76c5aeb 100644
+--- sync_action.rb
++++ sync_action.rb
+@@ -5,7 +5,7 @@ class SyncAction
+       cmds = []
+ 
+       if Context::Code.has_changes?
+-        print "Please commit all changes before SYNC action!\n"
++        print "Please commit all changes before SYNC action!".yellow + "\n"
+         { cmds: cmds, danger: false }
+       else
+         cmds << "git checkout #{Config.main_branch} && git pull origin #{Config.main_branch}"

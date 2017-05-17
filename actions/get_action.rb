@@ -4,7 +4,7 @@ class GetAction
       cmds = []
 
       if Context::Code.has_changes?
-        print "Please commit all changes before GET action!\n"
+        print "Please commit all changes before GET action!".yellow + "\n"
         { cmds: cmds, danger: false }
       else
         cmds << "git pull origin #{Context::Br.current}"

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '1.1.11'
+VERSION = '1.1.12'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
@@ -21,10 +21,11 @@ require ROOT_DIR + '/actions/reset_action.rb'
 require ROOT_DIR + '/actions/get_action.rb'
 require ROOT_DIR + '/actions/st_action.rb'
 require ROOT_DIR + '/actions/save_action.rb'
+require ROOT_DIR + '/lib/string.rb'
 
 def help_action
-  print "Version: #{VERSION}" + "\n\n"
-  print 'Examples: ' + "\n\n"
+  print "\nVersion: #{VERSION}".underlined + "\n\n"
+  print "Examples:".bold + "\n\n"
   print 'hf 777' + "\n"
   print 'hf save "its a comment"' + "\n"
   print 'hf save master develop "its a comment"' + "\n"
@@ -36,8 +37,8 @@ def help_action
   print 'hf reset' + "\n"
   print 'hf get' + "\n"
   print 'hf st' + "\n"
-  print "\n"
-  print 'Options: ' + "\n"
+  print "\n\n"
+  print "Options: ".bold + "\n\n"
   print 'No push: (--no-push|--local) prevents pushes to remote' + "\n"
   print 'hf save master "its a comment" --local' + "\n"
   print "\n"

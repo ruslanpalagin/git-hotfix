@@ -7,3 +7,4 @@ before_deploy_commit: "echo 'Before committing with deploy' "
 # hotfix or feature
 mode: hotfix
 locale: en
+colorize: true
