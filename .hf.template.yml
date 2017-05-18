@@ -15,3 +15,4 @@ before_deploy_commit: "echo 'Before commit' "
 # feature: main branch => "develop"
 mode: hotfix
 locale: en
+colorize: true
