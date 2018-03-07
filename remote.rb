@@ -7,9 +7,7 @@ module Remote
       end
 
       def exists? name
-        p raw_list
-        p name
-        raw_list.detect{|br_name| br_name.include? name } != nil
+        raw_list.detect{|br_name| br_name.end_with? name } != nil
       end
 
       protected
