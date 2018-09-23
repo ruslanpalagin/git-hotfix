@@ -22,6 +22,10 @@ module Context
         nil
       end
 
+      def mode(options)
+        options['mode'] || Config.get()['mode']
+      end
+
       protected
 
       def raw_list
