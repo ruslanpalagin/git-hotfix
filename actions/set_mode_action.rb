@@ -12,6 +12,7 @@ class SetModeAction
 
       cmds << "hf set-mode--write #{new_mode} --quiet"
       cmds << "git commit -a -m '#hf set mode to #{new_mode}'"
+      cmds << "git push origin #{Context::Br.current}"
 
       print "current mode: #{Context::Br.mode(options)} \n"
       print "new mode: #{args[1]} \n"
