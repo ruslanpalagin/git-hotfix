@@ -1,10 +1,8 @@
+---
 deploy:
-  master: "echo 'I will speak on: hf deploy master' "
-  develop: "echo 'I will speak on: hf deploy develop' "
-
-before_deploy_commit: "echo 'Before committing with deploy' "
-
-# hotfix or feature
+  master: 'echo ''I will speak on: hf deploy master'' '
+  develop: 'echo ''I will speak on: hf deploy develop'' '
+before_deploy_commit: 'echo ''Before committing with deploy'' '
 mode: hotfix
 locale: en
 colorize: true

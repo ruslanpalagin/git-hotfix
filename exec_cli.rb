@@ -1,18 +1,23 @@
 class ExecCli
   class << self
-    def call options
-      cmds = options[:cmds]
+    def call(response, args, options)
+      cmds = response[:cmds]
+      quiet = options[:quiet]
+      yes = options[:yes]
 
       unless cmds.any?
-        print "\n"
-        print "Nothing to do. I'll go and make some coffee...\n"
-        print "\n"
+        if !quiet
+          print "\n"
+          print "Nothing to do. I'll go and make some coffee...\n"
+          print "\n"
+        end
         return
       end
 
-      options[:danger] = true if ENV['DANGER']
+      response[:danger] = true if ENV['DANGER']
+      response[:danger] = false if yes
 
-      if options[:danger]
+      if response[:danger]
         print "\n"
         print "Following commands will be executed:".bold + "\n"
         print "\n"
@@ -22,7 +27,7 @@ class ExecCli
       cmds = cmds.select{|cmd| cmd != nil }
       cmds.each{|cmd| print cmd.green  + "\n"}
 
-      if options[:danger]
+      if response[:danger]
         print "\n"
         print 'Ok? (y/n) [y]:' + "\n"
         key = STDIN.gets.chomp

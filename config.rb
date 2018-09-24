@@ -6,6 +6,7 @@ class Config
       get
     end
 
+    # @deprecated
     def hotfix?
       get['mode'] == 'hotfix'
     end
@@ -14,14 +15,17 @@ class Config
       get['locale']
     end
 
+    # TODO - change logic to => skip_colorize: true
     def colorize?
       get['colorize']
     end
 
+    # @deprecated
     def feature?
       get['mode'] == 'feature'
     end
 
+    # @deprecated
     def branch_dir
       hotfix? ? 'hotfix' : 'feature'
     end
@@ -32,6 +36,11 @@ class Config
       result['locale'] = result['locale'] || 'en'
       result['colorize'] = result['colorize'].nil? ^ !result['colorize'] ^ true
       result
+    end
+
+    def write(config)
+      data = get.merge(config)
+      File.write(file_location, "" + data.to_yaml)
     end
 
     def main_branch

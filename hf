@@ -21,7 +21,7 @@ require ROOT_DIR + '/actions/reset_action.rb'
 require ROOT_DIR + '/actions/get_action.rb'
 require ROOT_DIR + '/actions/st_action.rb'
 require ROOT_DIR + '/actions/save_action.rb'
-require ROOT_DIR + '/actions/mode_action.rb'
+require ROOT_DIR + '/actions/set_mode_action.rb'
 require ROOT_DIR + '/lib/string.rb'
 
 def help_action
@@ -45,13 +45,7 @@ def help_action
   print "\n"
 end
 
-def run_actions
-  args = ARGV.select{|arg| arg[0] != '-' || arg.include?(' ') }
-  flags = ARGV.select{|arg| arg[0] == '-' && !arg.include?(' ') }
-  options = {}
-  options[:no_push] = flags.include?('--no-push') || flags.include?('--local')
-  options[:always_commit] = flags.include?('--ac') || flags.include?('--always-commit')
-
+def run_actions(args, options)
   return SaveAction.(args, options) if args[0] == 'save'
   return DeployAction.(args, options) if args[0] == 'deploy'
   return ConfigAction.(args, options) if args[0] == 'config'
@@ -60,7 +54,8 @@ def run_actions
   return ResetAction.(args, options) if args[0] == 'reset'
   return GetAction.(args, options) if args[0] == 'get'
   return StAction.(args, options) if args[0] == 'st'
-  return ModeAction.(args, options) if args[0] == 'mode'
+  return SetModeAction.(args, options) if args[0] == 'set-mode'
+  return SetModeAction.__write(args, options) if args[0] == 'set-mode--write'
 
   if args[0] == 'self-update'
     self_update_action
@@ -83,7 +78,17 @@ def self_update_action
 end
 
 def main
-  ExecCli.(run_actions)
+  args = ARGV.select{|arg| arg[0] != '-' || arg.include?(' ') }
+  flags = ARGV.select{|arg| arg[0] == '-' && !arg.include?(' ') }
+  options = {}
+  options[:no_push] = flags.include?('--no-push') || flags.include?('--local')
+  options[:always_commit] = flags.include?('--ac') || flags.include?('--always-commit')
+  options[:quiet] = flags.include?('--quiet') || flags.include?('--q')
+  options[:yes] = flags.include?('--yes') || flags.include?('--y')
+  options[:mode] = flags.include?('--mode')
+
+  response = run_actions(args, options)
+  ExecCli.(response, args, options)
 end
 
 main()
