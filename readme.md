@@ -1,14 +1,25 @@
+# Why hf? 
+
+`hf`'s goal is to reduce amount of work on simple projects. 
+Similar to (and inspired by) git-flow: https://danielkummer.github.io/git-flow-cheatsheet/index.ru_RU.html
+
 # Install
 
+```
 git clone https://github.com/r1dd1ck777/git-hotfix.git && cd git-hotfix && chmod +x hf && sudo ln -s $PWD/hf /usr/bin/hf
+```
+
+#### Do not have ruby?
+
+```
+sudo apt-get install ruby
+```
 
 # Update
 
 ```
 hf self-update
 ```
-or
-sudo rm /usr/bin/hf && git clone https://github.com/r1dd1ck777/git-hotfix.git && cd git-hotfix && chmod +x hf && sudo ln -s $PWD/hf /usr/bin/hf
 
 # Usage hints
 
@@ -41,6 +52,8 @@ Always commit (todo rethink this option): (--ac)
 ```
 
 # Examples
+
+Try it - hf will always print a list of commands and ask your confirmation
 
 ###Create new branch 'hotfix/123' from master:
 
