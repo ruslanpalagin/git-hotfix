@@ -13,16 +13,31 @@ sudo rm /usr/bin/hf && git clone https://github.com/r1dd1ck777/git-hotfix.git &&
 # Usage hints
 
 ```
-hf TASK_NUMBER
-hf save [branches]+ ["comment"] [--local] [--no-push]
-hf deploy [branches]+ ["comment"] [--ac] [--always-commit] [--local] [--no-push]
+Version: 1.2.2
+
+Examples:
+
+hf 777
+hf save "its a comment"
+hf save master develop "its a comment"
+hf deploy master develop "its a comment"
 hf delete-merged
-hf sync
-hf self-update
 hf config
+hf self-update [VERSION]
+hf sync
 hf reset
 hf get
 hf st
+hf set-mode [feature|hotfix]
+
+
+Options: 
+
+No push: (--local|--l) prevents pushes to remote
+Silent: (--quiet|--q) Skips some messages
+Auto confirmation: (--yes|--y)
+Always commit (todo rethink this option): (--ac)
+
 ```
 
 # Examples
@@ -46,7 +61,7 @@ From ANY branch. It will exec "git checkout hotfix/123"
 ```
 hf save "foo"
 ```
-It will save CURRENT hotfix branch with "git add . && git commit -a -m '#123 foo' && git push origin hotfix/123"
+It will save CURRENT hotfix branch with "git add -A && git commit -a -m '#123 foo' && git push origin hotfix/123"
 Running any "save" command you will see WHAT you actually exec.
 Try it! You can prevent execution with Ctrl+C
 
@@ -92,6 +107,13 @@ hf get
 
 ```
 hf st
+```
+
+###Change mode
+This will update config (.hf.yml), commit changes and push current branch
+```
+hf set-mode feature
+hf set-mode hotfix
 ```
 
 # TODO

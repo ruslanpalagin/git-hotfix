@@ -5,4 +5,4 @@ deploy:
 before_deploy_commit: 'echo ''Before committing with deploy'' '
 mode: hotfix
 locale: en
-colorize: true
+skip_colorize: false

@@ -76,5 +76,9 @@ Deploy feature
 
 - Add `hf st` command to get git status
 
+### 1.2.2
 
+- Add `hf set-mode hotfix` action
+- Add `hf set-mode hotfix` action
+- Change config `colorize: false` to `skip_colorize: true`
 

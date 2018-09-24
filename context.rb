@@ -47,4 +47,16 @@ module Context
       end
     end
   end
+
+  class Cli
+    class << self
+      def args
+        # TODO
+      end
+
+      def options
+        # TODO
+      end
+    end
+  end
 end

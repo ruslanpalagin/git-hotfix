@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '1.2.0'
+VERSION = '1.2.2'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
@@ -38,11 +38,13 @@ def help_action
   print 'hf reset' + "\n"
   print 'hf get' + "\n"
   print 'hf st' + "\n"
+  print 'hf set-mode [feature|hotfix]' + "\n"
   print "\n\n"
   print "Options: ".bold + "\n\n"
-  print 'No push: (--no-push|--local) prevents pushes to remote' + "\n"
+  print 'No push: (--local|--l) prevents pushes to remote' + "\n"
   print 'Silent: (--quiet|--q) Skips some messages' + "\n"
   print 'Auto confirmation: (--yes|--y)' + "\n"
+  print 'Always commit (todo rethink this option): (--ac)' + "\n"
   print "\n"
 end
 
@@ -75,18 +77,17 @@ def self_update_action
   checkout = ARGV[1] || :master
   dir = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }
   dir = dir.scan(/\->\s(.*)\/hf/)[0][0]
-  `cd #{dir} && git checkout #{checkout} && git pull origin #{checkout}`
+  `cd '#{dir}' && git checkout #{checkout} && git pull origin #{checkout}`
 end
 
 def main
   args = ARGV.select{|arg| arg[0] != '-' || arg.include?(' ') }
   flags = ARGV.select{|arg| arg[0] == '-' && !arg.include?(' ') }
   options = {}
-  options[:no_push] = flags.include?('--no-push') || flags.include?('--local')
+  options[:no_push] = flags.include?('--local') || flags.include?('--l')
   options[:always_commit] = flags.include?('--ac') || flags.include?('--always-commit')
   options[:quiet] = flags.include?('--quiet') || flags.include?('--q')
   options[:yes] = flags.include?('--yes') || flags.include?('--y')
-  options[:mode] = flags.include?('--mode')
 
   response = run_actions(args, options)
   ExecCli.(response, args, options)

@@ -6,7 +6,6 @@ class Config
       get
     end
 
-    # @deprecated
     def hotfix?
       get['mode'] == 'hotfix'
     end
@@ -15,17 +14,14 @@ class Config
       get['locale']
     end
 
-    # TODO - change logic to => skip_colorize: true
     def colorize?
-      get['colorize']
+      !get['skip_colorize']
     end
 
-    # @deprecated
     def feature?
       get['mode'] == 'feature'
     end
 
-    # @deprecated
     def branch_dir
       hotfix? ? 'hotfix' : 'feature'
     end
@@ -34,7 +30,6 @@ class Config
       result = exists? ? data : {}
       result['mode'] = result['mode'] || 'hotfix'
       result['locale'] = result['locale'] || 'en'
-      result['colorize'] = result['colorize'].nil? ^ !result['colorize'] ^ true
       result
     end
 

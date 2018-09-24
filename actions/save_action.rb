@@ -15,7 +15,7 @@ class SaveAction
       Remote::Br.update
 
       if Context::Code.has_changes?
-        cmds << "git add . && git commit -a -m '##{task} #{comment}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
+        cmds << "git add -A && git commit -a -m '##{task} #{comment}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
       end
 
       merge_branches.each do |merge_branch|

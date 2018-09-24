@@ -4,7 +4,7 @@ class ResetAction
       cmds = []
 
       if Context::Code.has_changes?
-        cmds << "git add . --all && git reset --hard"
+        cmds << "git add -A && git reset --hard"
         { cmds: cmds, danger: true }
       else
         { cmds: cmds, danger: false }
