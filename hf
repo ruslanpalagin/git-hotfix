@@ -41,7 +41,8 @@ def help_action
   print "\n\n"
   print "Options: ".bold + "\n\n"
   print 'No push: (--no-push|--local) prevents pushes to remote' + "\n"
-  print 'hf save master "its a comment" --local' + "\n"
+  print 'Silent: (--quiet|--q) Skips some messages' + "\n"
+  print 'Auto confirmation: (--yes|--y)' + "\n"
   print "\n"
 end
 
