@@ -5,6 +5,7 @@ def main
       'test_st',
       'test_save_master',
       'test_deploy_master',
+      'test_init',
   ].each do |method|
     print "run #{method} \n"
     send(method)
@@ -31,6 +32,15 @@ def test_deploy_master
   cmds = `hf deploy master "foo comment" --echo`
   assert_include?('Before committing with deploy', cmds)
   assert_include?('I will speak on: hf deploy master', cmds)
+end
+
+def test_init
+  cmds = `hf init git@github.com:r1dd1ck777/blockchain_academy_management_dapp.git --echo`
+  assert_include?('git init', cmds)
+  assert_include?('.gitignore', cmds)
+  assert_include?('blockchain_academy_management_dapp', cmds)
+  assert_include?('commit', cmds)
+  assert_include?('push origin master', cmds)
 end
 
 main()

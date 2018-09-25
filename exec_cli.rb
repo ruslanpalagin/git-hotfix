@@ -11,7 +11,7 @@ class ExecCli
       unless cmds.any?
         if !options[:quiet]
           print "\n"
-          print "Nothing to do. I'll go and make some coffee...\n"
+          print "Nothing to do. I am going to make some coffee...\n"
           print "\n"
         end
         return

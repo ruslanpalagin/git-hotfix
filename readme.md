@@ -129,7 +129,17 @@ hf set-mode feature
 hf set-mode hotfix
 ```
 
+### init repo & .gitignore
+
+```
+hf init
+```
+
 # TODO
 
 - remove single hotfix from local & remote
 - cli autocomplete
+
+# Run tests
+
+`tests/run.rb`

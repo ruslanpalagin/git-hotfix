@@ -16,6 +16,7 @@ class HelpAction
       print 'hf get' + "\n"
       print 'hf st' + "\n"
       print 'hf set-mode [feature|hotfix]' + "\n"
+      print 'hf init [REMOTE_URL]' + "\n"
       print "\n\n"
       print "Options: ".bold + "\n\n"
       print 'No push: (--local|--l) prevents pushes to remote' + "\n"

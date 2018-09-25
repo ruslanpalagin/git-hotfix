@@ -86,3 +86,7 @@ Deploy feature
 ### 1.2.3
 
 - Add `--echo` option - only render commands instead of executing. Can be used for testing
+
+### 1.2.4
+
+- Add `hf init` action - init repo & .gitignore

@@ -15,7 +15,5 @@ class ConfigAction
     end
 
     protected
-
-
   end
 end
