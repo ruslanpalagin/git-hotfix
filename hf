@@ -12,72 +12,35 @@ require ROOT_DIR + '/context.rb'
 require ROOT_DIR + '/config.rb'
 require ROOT_DIR + '/remote.rb'
 require ROOT_DIR + '/exec_cli.rb'
-require ROOT_DIR + '/deploy_action.rb'
-require ROOT_DIR + '/checkout_action.rb'
-require ROOT_DIR + '/delete_merged_action.rb'
-require ROOT_DIR + '/config_action.rb'
-require ROOT_DIR + '/sync_action.rb'
+require ROOT_DIR + '/actions/deploy_action.rb'
+require ROOT_DIR + '/actions/checkout_action.rb'
+require ROOT_DIR + '/actions/delete_merged_action.rb'
+require ROOT_DIR + '/actions/config_action.rb'
+require ROOT_DIR + '/actions/sync_action.rb'
 require ROOT_DIR + '/actions/reset_action.rb'
 require ROOT_DIR + '/actions/get_action.rb'
 require ROOT_DIR + '/actions/st_action.rb'
 require ROOT_DIR + '/actions/save_action.rb'
 require ROOT_DIR + '/actions/set_mode_action.rb'
+require ROOT_DIR + '/actions/help_action.rb'
 require ROOT_DIR + '/lib/string.rb'
 
-def help_action
-  print "\nVersion: #{VERSION}".underlined + "\n\n"
-  print "Examples:".bold + "\n\n"
-  print 'hf 777' + "\n"
-  print 'hf save "its a comment"' + "\n"
-  print 'hf save master develop "its a comment"' + "\n"
-  print 'hf deploy master develop "its a comment"' + "\n"
-  print 'hf delete-merged' + "\n"
-  print 'hf config' + "\n"
-  print 'hf self-update [VERSION]' + "\n"
-  print 'hf sync' + "\n"
-  print 'hf reset' + "\n"
-  print 'hf get' + "\n"
-  print 'hf st' + "\n"
-  print 'hf set-mode [feature|hotfix]' + "\n"
-  print "\n\n"
-  print "Options: ".bold + "\n\n"
-  print 'No push: (--local|--l) prevents pushes to remote' + "\n"
-  print 'Silent: (--quiet|--q) Skips some messages' + "\n"
-  print 'Auto confirmation: (--yes|--y)' + "\n"
-  print 'Always commit (todo rethink this option): (--ac)' + "\n"
-  print "\n"
-end
-
 def run_actions(args, options)
-  return SaveAction.(args, options) if args[0] == 'save'
-  return DeployAction.(args, options) if args[0] == 'deploy'
-  return ConfigAction.(args, options) if args[0] == 'config'
-  return SyncAction.(args, options) if args[0] == 'sync'
-  return DeleteMergedAction.(args, options) if args[0] == 'delete-merged'
-  return ResetAction.(args, options) if args[0] == 'reset'
-  return GetAction.(args, options) if args[0] == 'get'
-  return StAction.(args, options) if args[0] == 'st'
-  return SetModeAction.(args, options) if args[0] == 'set-mode'
-  return SetModeAction.__write(args, options) if args[0] == 'set-mode--write'
+  action = args[0]
 
-  if args[0] == 'self-update'
-    self_update_action
-    exit
-  end
-
+  return SaveAction.(args, options) if action == 'save'
+  return DeployAction.(args, options) if action == 'deploy'
+  return ConfigAction.(args, options) if action == 'config'
+  return SyncAction.(args, options) if action == 'sync'
+  return DeleteMergedAction.(args, options) if action == 'delete-merged'
+  return ResetAction.(args, options) if action == 'reset'
+  return GetAction.(args, options) if action == 'get'
+  return StAction.(args, options) if action == 'st'
+  return SetModeAction.(args, options) if action == 'set-mode'
+  return SetModeAction.__write(args, options) if action == 'set-mode--write'
+  return SelfUpdateAction.(args, options) if action == 'self-update'
   return CheckoutAction.(args, options) if args.count == 1
-
-  if args.count == 0
-    help_action
-    exit
-  end
-end
-
-def self_update_action
-  checkout = ARGV[1] || :master
-  dir = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }
-  dir = dir.scan(/\->\s(.*)\/hf/)[0][0]
-  `cd '#{dir}' && git checkout #{checkout} && git pull origin #{checkout}`
+  return HelpAction.(args, options) if args.count == 0
 end
 
 def main
@@ -88,6 +51,7 @@ def main
   options[:always_commit] = flags.include?('--ac') || flags.include?('--always-commit')
   options[:quiet] = flags.include?('--quiet') || flags.include?('--q')
   options[:yes] = flags.include?('--yes') || flags.include?('--y')
+  options[:echo] = flags.include?('--echo')
 
   response = run_actions(args, options)
   ExecCli.(response, args, options)

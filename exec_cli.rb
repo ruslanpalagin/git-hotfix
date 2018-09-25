@@ -2,11 +2,14 @@ class ExecCli
   class << self
     def call(response, args, options)
       cmds = response[:cmds]
-      quiet = options[:quiet]
-      yes = options[:yes]
+
+      if options[:echo]
+        print cmds.join(' && ')
+        return
+      end
 
       unless cmds.any?
-        if !quiet
+        if !options[:quiet]
           print "\n"
           print "Nothing to do. I'll go and make some coffee...\n"
           print "\n"
@@ -15,7 +18,7 @@ class ExecCli
       end
 
       response[:danger] = true if ENV['DANGER']
-      response[:danger] = false if yes
+      response[:danger] = false if options[:yes]
 
       if response[:danger]
         print "\n"
