@@ -79,6 +79,10 @@ Deploy feature
 ### 1.2.2
 
 - Add `hf set-mode hotfix` action
-- Add `hf set-mode hotfix` action
+- Add `--yes|--y` option - auto confirmation
+- Add `--quiet|--q` option - skip some messages
 - Change config `colorize: false` to `skip_colorize: true`
 
+### 1.2.3
+
+- Add `--echo` option - only render commands instead of executing. Can be used for testing
