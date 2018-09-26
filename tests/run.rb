@@ -41,6 +41,7 @@ def test_init
   assert_include?('blockchain_academy_management_dapp', cmds)
   assert_include?('commit', cmds)
   assert_include?('push origin master', cmds)
+  assert_include?('push origin develop', cmds)
 end
 
 main()

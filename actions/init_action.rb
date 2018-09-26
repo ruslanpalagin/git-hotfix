@@ -16,6 +16,8 @@ class InitAction
       cmds << "git add -A && git commit -a -m 'init'"
       cmds << "git remote add origin #{remote}"
       cmds << "git push origin master"
+      cmds << "git checkout -b develop"
+      cmds << "git push origin develop"
 
       { cmds: cmds, danger: true }
     end
