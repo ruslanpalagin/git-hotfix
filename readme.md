@@ -129,10 +129,15 @@ hf set-mode feature
 hf set-mode hotfix
 ```
 
-### init repo & .gitignore
-
+### init repo
+This command will:
+- init repo
+- create .gitignore
+- create first commit
+- create develop branch
+- push all to remote
 ```
-hf init
+hf init git@github.com:r1dd1ck777/blockchain_academy_management_dapp.git
 ```
 
 # TODO

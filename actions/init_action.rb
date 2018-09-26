@@ -14,9 +14,10 @@ class InitAction
       cmds << "cp #{source} .gitignore"
       cmds << "git init"
       cmds << "git add -A && git commit -a -m 'init'"
+      cmds << "git checkout -b develop"
+      cmds << "git checkout master"
       cmds << "git remote add origin #{remote}"
       cmds << "git push origin master"
-      cmds << "git checkout -b develop"
       cmds << "git push origin develop"
 
       { cmds: cmds, danger: true }

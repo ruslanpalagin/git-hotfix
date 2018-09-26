@@ -89,4 +89,4 @@ Deploy feature
 
 ### 1.2.4
 
-- Add `hf init` action - init repo & .gitignore
+- Add `hf init [ORIGIN_URL]` action - init repo & .gitignore
