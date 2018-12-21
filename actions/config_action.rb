@@ -9,7 +9,7 @@ class ConfigAction
         cmds << "cp #{source} .hf.yml"
       end
 
-      cmds << "nano .hf.yml"
+      cmds << "nano #{Config.file_location}"
 
       { cmds: cmds }
     end
