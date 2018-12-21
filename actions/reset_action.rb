@@ -3,7 +3,7 @@ class ResetAction
     def call args, options
       cmds = []
 
-      if Context::Code.has_changes?
+      if Code.has_changes?
         cmds << "git add -A && git reset --hard"
         { cmds: cmds, danger: true }
       else

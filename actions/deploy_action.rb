@@ -4,13 +4,13 @@ class DeployAction
     def call args, options
 
       comment = comment(args)
-      task = Context::Br.task_name
+      task = Branch.task_name
       merge_branches = merge_branches(args)
       cmds = []
 
-      branch = Context::Br.current
-      unless branch.include? Config.branch_dir
-        print "You are not in #{Config.branch_dir} branch!\n"
+      branch = Branch.current
+      unless branch.include? Config.task_branch_namespace
+        print "You are not in #{Config.task_branch_namespace} branch!\n"
         exit
       end
 
@@ -18,7 +18,7 @@ class DeployAction
 
       cmds = cmds + cmds_before_commit_hook
 
-      if Context::Code.has_changes? || options[:always_commit]
+      if Code.has_changes? || options[:always_commit]
         cmds << "git add -A && git commit -a -m '##{task} #{comment}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
       end
 
@@ -68,7 +68,7 @@ class DeployAction
     end
 
     def comment args
-      comment = args.last == 'deploy' || Context::Br.exists?(args.last) ? nil : args.last
+      comment = args.last == 'deploy' || Branch.exists?(args.last) ? nil : args.last
       if comment != nil && (comment.include?('"') || comment.include?("'"))
         print "Invalid comment. Try to avoid ' and \" symbols or fix it in pull request =)".yellow + "\n"
         exit

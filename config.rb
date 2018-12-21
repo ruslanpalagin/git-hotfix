@@ -3,11 +3,8 @@ class Config
 
   class << self
     def call
+      raise "deprecated"
       get
-    end
-
-    def hotfix?
-      get['mode'] == 'hotfix'
     end
 
     def locale
@@ -18,17 +15,12 @@ class Config
       !get['skip_colorize']
     end
 
-    def feature?
-      get['mode'] == 'feature'
-    end
-
-    def branch_dir
-      hotfix? ? 'hotfix' : 'feature'
+    def task_branch_namespace
+      get['task_branch_namespace']
     end
 
     def get
       result = exists? ? data : {}
-      result['mode'] = result['mode'] || 'hotfix'
       result['locale'] = result['locale'] || 'en'
       result
     end
@@ -38,8 +30,8 @@ class Config
       File.write(file_location, "" + data.to_yaml)
     end
 
-    def main_branch
-      hotfix? ? 'master' : 'develop'
+    def source_branch
+      get['source_branch']
     end
 
     def exists?

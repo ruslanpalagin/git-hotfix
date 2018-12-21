@@ -3,11 +3,11 @@ class CheckoutAction
   class << self
     def call args, options
       name = args.first
-      new_branch = "#{Config.branch_dir}/#{name}"
+      new_branch = "#{Config.task_branch_namespace}/#{name}"
 
       cmds = []
 
-      unless Context::Br.current == new_branch
+      unless Branch.current == new_branch
         cmds = cmds + goto(new_branch)
       end
 
@@ -24,11 +24,11 @@ class CheckoutAction
     def goto new_branch
       cmds = []
 
-      if Context::Br.exists? new_branch
+      if Branch.exists? new_branch
         cmds << "git checkout #{new_branch}"
       else
-        cmds << "git checkout #{Config.main_branch}" unless Context::Br.current == Config.main_branch
-        cmds << "git pull origin #{Config.main_branch}"
+        cmds << "git checkout #{Config.source_branch}" unless Branch.current == Config.source_branch
+        cmds << "git pull origin #{Config.source_branch}"
         cmds << "git checkout -b #{new_branch}"
       end
 

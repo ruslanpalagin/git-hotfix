@@ -1,8 +1,0 @@
----
-deploy:
-  master: 'echo ''I will speak on: hf deploy master'' '
-  develop: 'echo ''I will speak on: hf deploy develop'' '
-before_deploy_commit: 'echo ''Before committing with deploy'' '
-mode: hotfix
-locale: en
-skip_colorize: false
