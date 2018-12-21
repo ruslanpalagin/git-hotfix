@@ -21,6 +21,7 @@ class Config
 
     def get
       result = exists? ? data : {}
+      result['source_branch'] = result['source_branch'] || 'master'
       result['locale'] = result['locale'] || 'en'
       result
     end
