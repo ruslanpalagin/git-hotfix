@@ -1,9 +1,8 @@
-
-class CheckoutAction
+module CheckoutAction
   class << self
-    def call args, options
-      name = args.first
-      new_branch = "#{Config.task_branch_namespace}/#{name}"
+    def call(args, options)
+      task_name = args.first
+      new_branch = task_branch_name(task_name)
 
       cmds = []
 
@@ -20,6 +19,14 @@ class CheckoutAction
     end
 
     protected
+
+    def task_branch_name(task_name)
+      config = Config.get
+      tpl = config['task_branch_name_tpl']
+      tpl = tpl.gsub('{mode}', config['mode'])
+      tpl = tpl.gsub('{task_name}', task_name)
+      tpl
+    end
 
     def goto new_branch
       cmds = []

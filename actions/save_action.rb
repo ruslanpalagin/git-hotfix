@@ -1,8 +1,8 @@
-class SaveAction
+module SaveAction
   class << self
-    def call args, options
-      comment = comment(args)
-      task = Branch.task_name
+    def call(args, options)
+      commit_message = comment(args)
+      task_name = Branch.task_name
       merge_branches = merge_branches(args)
       cmds = []
 
@@ -15,7 +15,7 @@ class SaveAction
       Remote::Br.update
 
       if Code.has_changes?
-        cmds << "git add -A && git commit -a -m '##{task} #{comment}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
+        cmds << "git add -A && git commit -a -m '#{commit_message(task_name, commit_message)}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
       end
 
       merge_branches.each do |merge_branch|
@@ -24,6 +24,16 @@ class SaveAction
 
       cmds << "git checkout #{branch}" if merge_branches.any?
       { cmds: cmds, danger: true }
+    end
+
+    # public helper - re-using in deploy action
+    def commit_message(task_name, commit_message)
+      config = Config.get
+      tpl = config['commit_massage_tpl']
+      tpl = tpl.gsub('{project_name}', config['project_name'])
+      tpl = tpl.gsub('{task_name}', task_name)
+      tpl = tpl.gsub('{commit_message}', commit_message)
+      tpl
     end
 
     protected

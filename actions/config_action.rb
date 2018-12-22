@@ -1,5 +1,4 @@
-
-class ConfigAction
+module ConfigAction
   class << self
     def call args, options
       cmds = []

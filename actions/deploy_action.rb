@@ -1,25 +1,23 @@
-
-class DeployAction
+module DeployAction
   class << self
     def call args, options
-
-      comment = comment(args)
-      task = Branch.task_name
+      commit_message = comment(args)
+      task_name = Branch.task_name
       merge_branches = merge_branches(args)
       cmds = []
 
       branch = Branch.current
-      unless branch.include? Config.task_branch_namespace
-        print "You are not in #{Config.task_branch_namespace} branch!\n"
-        exit
-      end
+      # unless branch.include? Config.task_branch_namespace
+      #   print "You are not in #{Config.task_branch_namespace} branch!\n"
+      #   exit
+      # end
 
       Remote::Br.update
 
-      cmds = cmds + cmds_before_commit_hook
+      cmds = cmds + cmds_before_deploy_commit
 
       if Code.has_changes? || options[:always_commit]
-        cmds << "git add -A && git commit -a -m '##{task} #{comment}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
+        cmds << "git add -A && git commit -a -m '#{SaveAction.commit_message(task_name, commit_message)}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
       end
 
       merge_branches.each do |merge_branch|
@@ -47,7 +45,7 @@ class DeployAction
 
     protected
 
-    def cmds_before_commit_hook
+    def cmds_before_deploy_commit
       cmds = []
       before_deploy_commit_config = Config.get['before_deploy_commit']
       if before_deploy_commit_config != nil && before_deploy_commit_config != ''

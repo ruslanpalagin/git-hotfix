@@ -16,13 +16,16 @@ class Config
     end
 
     def task_branch_namespace
-      get['task_branch_namespace']
+      tpl = get['task_branch_name_tpl']
+      tpl.gsub(":mode", get['mode'])
+      tpl.gsub(":task_name", Branch.task_name)
     end
 
     def get
       result = exists? ? data : {}
       result['source_branch'] = result['source_branch'] || 'master'
       result['locale'] = result['locale'] || 'en'
+      result['mode'] = result['mode'] || 'feature'
       result
     end
 
