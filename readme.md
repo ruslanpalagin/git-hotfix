@@ -1,7 +1,10 @@
+# Version 2 released (not BC, read changelog)
+
 # Why hf? 
 
-`hf`'s goal is to reduce amount of work on simple projects. 
+`hf`'s goal is to reduce amount of work with git. 
 Similar to (and inspired by) git-flow: https://danielkummer.github.io/git-flow-cheatsheet/index.ru_RU.html
+ANY command will ask your confirmation so do not afraid to test it!
 
 # Install
 
@@ -39,8 +42,6 @@ hf sync
 hf reset
 hf get
 hf st
-hf set-mode [feature|hotfix]
-
 
 Options: 
 
@@ -48,41 +49,41 @@ No push: (--local|--l) prevents pushes to remote
 Silent: (--quiet|--q) Skips some messages
 Auto confirmation: (--yes|--y)
 Always commit (todo rethink this option): (--ac)
+Print only (do not exec): (--echo)
 
 ```
 
 # Examples
 
-Try it - hf will always print a list of commands and ask your confirmation
+Imagine that your task number is "123". You've just started to work on "123"
 
 ### Create new branch 'hotfix/123' from master:
 
 ```
 hf 123
 ```
-From ANY branch. It will exec "git checkout master && git checkout -b hotfix/123"
+hf will detect that branch is missing on local or remote and create a new one.
 
-### Goto 'hotfix/123' if it exists:
+### Let's make some coding and try to save our progress
+
+```
+hf save "fix typo, rm comments, add a joke into a code"
+```
+hf will commit ALL your changes (using commit-message's template defined in .hf.yml config) and push to remote. Yey!
+
+### Now let's imagine your mate want to check your progress.
 
 ```
 hf 123
 ```
-From ANY branch. It will exec "git checkout hotfix/123"
-
-### Commit with comment 'foo' and push to remote:
-
-```
-hf save "foo"
-```
-It will save CURRENT hotfix branch with "git add -A && git commit -a -m '#123 foo' && git push origin hotfix/123"
-Running any "save" command you will see WHAT you actually exec.
-Try it! You can prevent execution with Ctrl+C
+Wow it's same command as on the first step but now hf detects that branch exists and pull it from remote!
 
 ### Merge 'hotfix/123' into master, push master to remote:
 
 ```
 hf save master
 ```
+Small project? No PRs? Still let's separate tasks with different branches!
 
 ### Commit with comment 'foo', push to remote, merge 'hotfix/123' into master & develop, push master & develop to remote:
 
@@ -96,20 +97,19 @@ You can change deploy commands with `hf config` or in .hf.yml
 hf deploy master develop "foo"
 ```
 
-### Config deployment & mode
+# More examples
 
-### Merge main branch into current branch
-You can change main branch with `hf config` or in .hf.yml
+### Open closest .hf.yml config file. Create a new one if missing
+```
+hf config
+```
+See config specs below.
 
+### Merge source branch into current branch
 ```
 hf sync
 ```
-
-### Remove all merged (into main branch) hotfix branches (local & remote):
-You can change main branch with `hf config` or in .hf.yml
-```
-hf delete-merged
-```
+Note: config source branch with `hf config` or in .hf.yml
 
 ### Update current branch with remote version
 ```
@@ -117,34 +117,57 @@ hf get
 ```
 
 ### Browse git status
-
 ```
 hf st
 ```
 
-### Change mode
-This will update config (.hf.yml), commit changes and push current branch
+### RESET HARD changes
 ```
-hf set-mode feature
-hf set-mode hotfix
+hf reset
 ```
 
 ### init repo
+```
+hf init git@github.com:r1dd1ck777/blockchain_academy_management_dapp.git
+```
 This command will:
 - init repo
 - create .gitignore
 - create first commit
 - create develop branch
 - push all to remote
+
+### Remove all merged (into source branch) hotfix branches (local & remote):
 ```
-hf init git@github.com:r1dd1ck777/blockchain_academy_management_dapp.git
+hf delete-merged
 ```
+Note: not tested in v2.0.0+
+
+# Example config file:
+```
+deploy:
+  master: 'echo ''I will speak on: hf deploy master'' '
+  develop: 'echo ''I will speak on: hf deploy develop'' '
+before_deploy_commit: 'echo ''Before committing with deploy'' '
+locale: en
+skip_colorize: false
+
+source_branch: master
+mode: hotfix
+task_branch_name_tpl: "{mode}/{task_name}"
+
+project_name: HF
+commit_massage_tpl: "[{project_name}] #{task_name}: {commit_message} (hf is awesome!)"
+```
+
+### config template variables
+- task_name - hf takes it from current branch name. For branch "feature/123" task_name is "123" 
+- commit_message - arg variable from cli. For command `hf save "fix typo"` commit_message is "fix typo"
+- the rest are self-explainable (I hope ;))
 
 # TODO
-
 - remove single hotfix from local & remote
 - cli autocomplete
 
 # Run tests
-
 `tests/run.rb`

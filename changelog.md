@@ -90,3 +90,30 @@ Deploy feature
 ### 1.2.4
 
 - Add `hf init [ORIGIN_URL]` action - init repo & .gitignore
+
+# 2.0.1
+
+- changed config (FULLY NEW config logic)
+- few commands were deleted
+- commit message templates
+- branch name templates
+- source branch config
+
+Config (.hf.yml) example:
+
+```
+deploy:
+  master: 'echo ''I will speak on: hf deploy master'' '
+  develop: 'echo ''I will speak on: hf deploy develop'' '
+before_deploy_commit: 'echo ''Before committing with deploy'' '
+locale: en
+skip_colorize: false
+
+source_branch: master
+mode: feature
+task_branch_name_tpl: "{mode}/{task_name}"
+
+project_name: HF
+commit_massage_tpl: "[{project_name}] #{task_name}: {commit_message} (hf is awesome!)"
+
+```
