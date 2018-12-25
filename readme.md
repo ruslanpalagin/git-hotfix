@@ -126,6 +126,12 @@ hf st
 hf reset
 ```
 
+### run custom command from config
+```
+hf r test
+```
+Where "r" is a shortcut for "run" and "test" is script name (see config example to get a clue).
+
 ### init repo
 ```
 hf init git@github.com:r1dd1ck777/blockchain_academy_management_dapp.git
@@ -158,6 +164,9 @@ task_branch_name_tpl: "{mode}/{task_name}"
 
 project_name: HF
 commit_massage_tpl: "[{project_name}] #{task_name}: {commit_message} (hf is awesome!)"
+
+run:
+  test: 'echo "run test"'
 ```
 
 ### config template variables

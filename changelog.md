@@ -117,3 +117,7 @@ project_name: HF
 commit_massage_tpl: "[{project_name}] #{task_name}: {commit_message} (hf is awesome!)"
 
 ```
+
+## 2.0.2
+
+- added `hf r [SCRIPT_NAME]` command
