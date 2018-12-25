@@ -27,7 +27,7 @@ class ExecCli
       end
 
       cmds = [cmds] unless cmds.is_a? Array
-      cmds = cmds.select{|cmd| cmd != nil }
+      cmds = cmds.select{|cmd| cmd != nil && cmd != '' }
       cmds.each{|cmd| print cmd.green  + "\n"}
 
       if response[:danger]

@@ -6,7 +6,7 @@ module SaveAction
       merge_branches = merge_branches(args)
       cmds = []
 
-      branch = Branch.current
+      current_branch = Branch.current
       # unless branch.include? Config.task_branch_namespace
       #   print "You are not in #{Config.task_branch_namespace} branch!".yellow + "\n"
       #   exit
@@ -15,14 +15,17 @@ module SaveAction
       Remote::Br.update
 
       if Code.has_changes?
-        cmds << "git add -A && git commit -a -m '#{commit_message(task_name, commit_message)}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
+        cmds << "git add -A && git commit -a -m '#{commit_message(task_name, commit_message)}' #{Remote::Br.exists?(current_branch) ? " && git pull origin #{current_branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{current_branch}"}"
+      else
+        cmds << "#{Remote::Br.exists?(current_branch) ? "git pull origin #{current_branch} " : nil}"
+        cmds << "#{options[:no_push] ? nil : "git push origin #{current_branch}"}"
       end
 
       merge_branches.each do |merge_branch|
-        cmds << "git checkout #{merge_branch} && git pull origin #{merge_branch} && git merge #{branch} #{options[:no_push] ? nil : "&& git push origin #{merge_branch}"}"
+        cmds << "git checkout #{merge_branch} && git pull origin #{merge_branch} && git merge #{current_branch} #{options[:no_push] ? nil : "&& git push origin #{merge_branch}"}"
       end
 
-      cmds << "git checkout #{branch}" if merge_branches.any?
+      cmds << "git checkout #{current_branch}" if merge_branches.any?
       { cmds: cmds, danger: true }
     end
 
