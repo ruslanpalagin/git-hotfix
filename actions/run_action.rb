@@ -10,7 +10,7 @@ module RunAction
       script = scripts[script_key]
       cmds << script
 
-      { cmds: cmds, danger: true }
+      { cmds: cmds, danger: false }
     end
 
     protected
