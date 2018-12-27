@@ -23,8 +23,10 @@ class Config
 
     def get
       result = exists? ? data : {}
+      result['commit_massage_tpl'] ||= '#{task_name}: {commit_message}'
+      result['project_name'] ||= ''
       result['source_branch'] = result['source_branch'] || 'master'
-      result['locale'] = result['locale'] || 'en'
+      result['locale'] ||= 'en'
       result['mode'] = result['mode'] || 'feature'
       result
     end

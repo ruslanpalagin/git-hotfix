@@ -18,7 +18,7 @@ module Branch
       r
     rescue => e
       p e.to_s.red unless e.to_s == "undefined method `[]' for nil:NilClass"
-      nil
+      current
     end
 
     protected
