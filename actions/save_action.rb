@@ -33,9 +33,6 @@ module SaveAction
     def commit_message(task_name, commit_message)
       config = Config.get
       tpl = config['commit_massage_tpl']
-      p tpl
-      p config
-      p task_name
       tpl = tpl.gsub('{project_name}', config['project_name'])
       tpl = tpl.gsub('{task_name}', task_name)
       tpl = tpl.gsub('{commit_message}', commit_message)
