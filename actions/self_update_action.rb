@@ -11,6 +11,7 @@ class SelfUpdateAction
         { cmds: [cmd], danger: false }
       else
         `#{cmd}`
+        { cmds: ["echo '#{cmd}'"], danger: false }
       end
     end
 
