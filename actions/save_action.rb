@@ -31,6 +31,7 @@ module SaveAction
 
     # public helper - re-using in deploy action
     def commit_message(task_name, commit_message)
+      commit_message ||= Time.now.to_s
       config = Config.get
       tpl = config['commit_massage_tpl']
       tpl = tpl.gsub('{project_name}', config['project_name'])
