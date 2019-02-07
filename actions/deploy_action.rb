@@ -17,7 +17,7 @@ module DeployAction
       cmds = cmds + cmds_before_deploy_commit
 
       if Code.has_changes? || options[:always_commit]
-        cmds << "git add -A && git commit -a -m '#{SaveAction.commit_message(task_name, commit_message)}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
+        cmds << "git add -A && git commit -a -m '#{SaveAction.commit_message(task_name, commit_message, options)}' #{Remote::Br.exists?(branch) ? " && git pull origin #{branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{branch}"}"
       end
 
       merge_branches.each do |merge_branch|
