@@ -24,6 +24,7 @@ module CheckoutAction
       config = Config.get
       tpl = config['task_branch_name_tpl']
       tpl = tpl.gsub('{mode}', config['mode'])
+      tpl = tpl.gsub('{project_name}', config['project_name'])
       tpl = tpl.gsub('{task_name}', task_name)
       tpl
     end
