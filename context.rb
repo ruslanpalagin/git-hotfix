@@ -13,7 +13,7 @@ module Branch
     end
 
     def task_name
-      r = current.scan(/\/([^\/]+)/)
+      r = current.scan(/\/([^\/]+)$/)
       r = r[0][0] if r
       r
     rescue => e
