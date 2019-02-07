@@ -11,7 +11,7 @@ mode: feature
 task_branch_name_tpl: "{mode}/{task_name}"
 
 project_name: HF
-commit_massage_tpl: "[{project_name}] #{task_name}: {commit_message} (hf is awesome!)"
+commit_massage_tpl: "[{project_name}] #{task_name}: {commit_message}"
 
 run:
   test: 'echo "run test"'
