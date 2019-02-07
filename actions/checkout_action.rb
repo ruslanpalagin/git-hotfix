@@ -2,7 +2,7 @@ module CheckoutAction
   class << self
     def call(args, options)
       task_name = args.first
-      new_branch = task_branch_name(task_name)
+      new_branch = task_branch_name(task_name, options)
 
       cmds = []
 
@@ -20,11 +20,11 @@ module CheckoutAction
 
     protected
 
-    def task_branch_name(task_name)
+    def task_branch_name(task_name, options)
       config = Config.get
       tpl = config['task_branch_name_tpl']
-      tpl = tpl.gsub('{mode}', config['mode'])
-      tpl = tpl.gsub('{project_name}', config['project_name'])
+      tpl = tpl.gsub('{mode}', options[:mode] || config['mode'])
+      tpl = tpl.gsub('{project_name}', options[:project_name] || config['project_name'])
       tpl = tpl.gsub('{task_name}', task_name)
       tpl
     end

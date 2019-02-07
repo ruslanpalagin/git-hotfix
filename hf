@@ -54,9 +54,31 @@ def main
   options[:quiet] = flags.include?('--quiet') || flags.include?('--q')
   options[:yes] = flags.include?('--yes') || flags.include?('--y')
   options[:echo] = flags.include?('--echo')
+  options[:mode] = flag_value(flags, 'mode', 'm')
+  options[:project_name] = flag_value(flags, 'project_name', 'p')
+
+  # TODO refactor updating of config
+  if options[:mode]
+    Config.write({
+                     'mode' => options[:mode]
+                 })
+  end
+  if options[:project_name]
+    Config.write({
+                     'project_name' => options[:project_name]
+                 })
+  end
+  #
 
   response = run_actions(args, options)
   ExecCli.(response, args, options)
+end
+
+def flag_value(flags, *names)
+  searched_flag = flags.find do |flag|
+    !!names.find{|name| flag.include?(name) }
+  end
+  searched_flag ? searched_flag.split('=').last : nil
 end
 
 main()

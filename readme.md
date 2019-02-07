@@ -50,6 +50,8 @@ Silent: (--quiet|--q) Skips some messages
 Auto confirmation: (--yes|--y)
 Always commit (todo rethink this option): (--ac)
 Print only (do not exec): (--echo)
+Override mode (autosave to config): --mode=hotfix OR --m=hotfix
+Override project_name (autosave to config): --project_name=customName OR --p=customName
 
 ```
 

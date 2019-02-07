@@ -15,7 +15,7 @@ module SaveAction
       Remote::Br.update
 
       if Code.has_changes?
-        cmds << "git add -A && git commit -a -m '#{commit_message(task_name, commit_message)}' #{Remote::Br.exists?(current_branch) ? " && git pull origin #{current_branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{current_branch}"}"
+        cmds << "git add -A && git commit -a -m '#{commit_message(task_name, commit_message, options)}' #{Remote::Br.exists?(current_branch) ? " && git pull origin #{current_branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{current_branch}"}"
       else
         cmds << "#{Remote::Br.exists?(current_branch) ? "git pull origin #{current_branch} " : nil}"
         cmds << "#{options[:no_push] ? nil : "git push origin #{current_branch}"}"
@@ -30,11 +30,11 @@ module SaveAction
     end
 
     # public helper - re-using in deploy action
-    def commit_message(task_name, commit_message)
+    def commit_message(task_name, commit_message, options)
       commit_message ||= Time.now.to_s
       config = Config.get
       tpl = config['commit_massage_tpl']
-      tpl = tpl.gsub('{project_name}', config['project_name'])
+      tpl = tpl.gsub('{project_name}', options[:project_name] || config['project_name'])
       tpl = tpl.gsub('{task_name}', task_name)
       tpl = tpl.gsub('{commit_message}', commit_message)
       tpl
