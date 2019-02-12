@@ -2,6 +2,7 @@
 class HelpAction
   class << self
     def call args, options
+      config = Config.get
       print "\nVersion: #{VERSION}".underlined + "\n\n"
       print "Examples:".bold + "\n\n"
       print 'hf 777' + "\n"
@@ -24,6 +25,11 @@ class HelpAction
       print 'Always commit (todo rethink this option): (--ac)' + "\n"
       print 'Only print commands: (--echo)' + "\n"
       print "\n"
+      print "\n"
+
+      print "Current: \n"
+      print "mode: #{config['mode'].yellow} \n"
+      print "project_name: #{config['project_name'].yellow} \n"
 
       { cmds: [], danger: false }
     end
