@@ -10,7 +10,7 @@ class SyncAction
       else
         cmds << "git checkout #{Config.source_branch} && git pull origin #{Config.source_branch}"
         cmds << "git checkout #{Branch.current}"
-        cmds << "git pull origin #{Config.source_branch}"
+        cmds << "git pull origin #{Config.source_branch} || true"
         cmds << "git mergetool"
         { cmds: cmds, danger: true }
       end
