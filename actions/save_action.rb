@@ -17,7 +17,7 @@ module SaveAction
       if Code.has_changes?
         cmds << "git add -A && git commit -a -m '#{commit_message(task_name, commit_message, options)}' #{Remote::Br.exists?(current_branch) ? " && git pull origin #{current_branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{current_branch}"}"
       else
-        cmds << "#{Remote::Br.exists?(current_branch) ? "git pull origin #{current_branch} " : nil}"
+        cmds << "#{Remote::Br.exists?(current_branch) ? "git pull origin #{current_branch} || true" : nil}"
         cmds << "#{options[:no_push] ? nil : "git push origin #{current_branch}"}"
       end
 
