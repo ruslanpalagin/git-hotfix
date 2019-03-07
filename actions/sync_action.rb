@@ -11,7 +11,12 @@ class SyncAction
         cmds << "git checkout #{Config.source_branch} && git pull origin #{Config.source_branch}"
         cmds << "git checkout #{Branch.current}"
         cmds << "git pull origin #{Config.source_branch} || true"
-        cmds << "git mergetool"
+        cmds << "git mergetool || true"
+        if options[:clean]
+          cmds << "echo 'Deleting meld .orig files'"
+          cmds << "find . -type f -name '*.orig'"
+          cmds << "find . -type f -name '*.orig' -delete"
+        end
         { cmds: cmds, danger: true }
       end
     end

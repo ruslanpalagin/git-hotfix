@@ -24,6 +24,7 @@ class HelpAction
       print 'Auto confirmation: (--yes|--y)' + "\n"
       print 'Always commit (todo rethink this option): (--ac)' + "\n"
       print 'Only print commands: (--echo)' + "\n"
+      print 'Clean .orig files after hf resolve: (--c)' + "\n"
       print "\n"
       print "\n"
 

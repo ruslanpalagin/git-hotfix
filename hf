@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '2.0.8'
+VERSION = '2.0.9'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
@@ -56,6 +56,7 @@ def main
   options[:echo] = flags.include?('--echo')
   options[:mode] = flag_value(flags, 'mode', 'm')
   options[:project_name] = flag_value(flags, 'project_name', 'p')
+  options[:clean] = flag_value(flags, 'clean', 'c')
 
   # TODO refactor updating of config
   if options[:mode]
