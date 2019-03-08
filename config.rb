@@ -23,6 +23,7 @@ class Config
 
     def get
       result = exists? ? data : {}
+      result['task_branch_name_tpl'] ||= '"{mode}/{task_name}"'
       result['commit_massage_tpl'] ||= '#{task_name}: {commit_message}'
       result['project_name'] ||= ''
       result['source_branch'] = result['source_branch'] || 'master'

@@ -22,7 +22,7 @@ module CheckoutAction
 
     def task_branch_name(task_name, options)
       config = Config.get
-      tpl = config['task_branch_name_tpl']
+      tpl = config['task_branch_name_tpl'] || ''
       tpl = tpl.gsub('{mode}', options[:mode] || config['mode'])
       tpl = tpl.gsub('{project_name}', options[:project_name] || config['project_name'])
       tpl = tpl.gsub('{task_name}', task_name)
