@@ -4,7 +4,7 @@ class ExecCli
       cmds = response[:cmds]
 
       if options[:echo]
-        print cmds.join(' && ')
+        print cmds.join(' && ') + "\n"
         return
       end
 

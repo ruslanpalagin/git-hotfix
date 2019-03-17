@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '2.0.10'
+VERSION = '2.0.11'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
@@ -54,6 +54,7 @@ def main
   options[:quiet] = flags.include?('--quiet') || flags.include?('--q')
   options[:yes] = flags.include?('--yes') || flags.include?('--y')
   options[:echo] = flags.include?('--echo')
+  options[:skip_staging] = flags.include?('--dry')
   options[:mode] = flag_value(flags, 'mode', 'm')
   options[:project_name] = flag_value(flags, 'project_name', 'p')
   options[:clean] = flag_value(flags, 'clean', 'c')

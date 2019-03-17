@@ -40,5 +40,26 @@ class Code
       }
       !status.include? mapping[Config.locale]
     end
+
+    def has_untracked_files?
+      update_index
+      `git ls-files -o --directory --exclude-standard | sed q | wc -l`.to_i == 1
+    end
+
+    def has_unstaged_files?
+      update_index
+      `git diff-files --quiet --ignore-submodules -- || echo 1`.to_i == 1
+    end
+
+    def has_uncommited_changes?
+      update_index
+      `git diff-index --cached --quiet HEAD --ignore-submodules -- || echo 1`.to_i == 1 
+    end
+
+    private
+  
+    def update_index
+      `git update-index -q --ignore-submodules --refresh`
+    end
   end
 end
