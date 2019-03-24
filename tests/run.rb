@@ -30,7 +30,7 @@ def test_save_master
   assert_include?('git checkout master', cmds)
   assert_include?('git merge', cmds)
 ensure
-  `git rm -f test.txt`
+  `rm test.txt`
 end
 
 def test_deploy_master
