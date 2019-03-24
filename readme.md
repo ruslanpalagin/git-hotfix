@@ -52,7 +52,7 @@ Always commit (todo rethink this option): (--ac)
 Print only (do not exec): (--echo)
 Override mode (autosave to config): --mode=hotfix OR --m=hotfix
 Override project_name (autosave to config): --project_name=customName OR --p=customName
-Skip adding changes from working tree to staging area: --dry
+Skip adding changes from working tree to staging area: --skip-add
 
 ```
 

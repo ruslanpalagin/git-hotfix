@@ -33,12 +33,7 @@ end
 class Code
   class << self
     def has_changes?
-      status = `git status`
-      mapping = {
-          'ru' => 'нечего коммитить',
-          'en' => 'nothing to commit'
-      }
-      !status.include? mapping[Config.locale]
+      !`git status --porcelain`.to_s.strip.empty?
     end
 
     def has_untracked_files?

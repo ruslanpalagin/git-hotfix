@@ -54,7 +54,7 @@ def main
   options[:quiet] = flags.include?('--quiet') || flags.include?('--q')
   options[:yes] = flags.include?('--yes') || flags.include?('--y')
   options[:echo] = flags.include?('--echo')
-  options[:skip_staging] = flags.include?('--dry')
+  options[:skip_staging] = flags.include?('--skip-add')
   options[:mode] = flag_value(flags, 'mode', 'm')
   options[:project_name] = flag_value(flags, 'project_name', 'p')
   options[:clean] = flag_value(flags, 'clean', 'c')
