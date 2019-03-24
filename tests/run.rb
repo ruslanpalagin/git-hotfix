@@ -24,10 +24,13 @@ def test_st
 end
 
 def test_save_master
+  `touch test.txt`
   cmds = `hf save master "foo comment" --echo`
   assert_include?('foo comment', cmds)
   assert_include?('git checkout master', cmds)
   assert_include?('git merge', cmds)
+ensure
+  `git rm -f test.txt`
 end
 
 def test_deploy_master
