@@ -6,6 +6,8 @@ def main
       'test_save_master',
       'test_deploy_master',
       'test_init',
+      'test_skip_add_option_without_changes',
+      'test_skip_add_option_with_changes',
   ].each do |method|
     print "run #{method} \n"
     send(method)
@@ -22,10 +24,13 @@ def test_st
 end
 
 def test_save_master
+  `touch test.txt`
   cmds = `hf save master "foo comment" --echo`
   assert_include?('foo comment', cmds)
   assert_include?('git checkout master', cmds)
   assert_include?('git merge', cmds)
+ensure
+  `rm test.txt`
 end
 
 def test_deploy_master
@@ -42,6 +47,19 @@ def test_init
   assert_include?('commit', cmds)
   assert_include?('push origin master', cmds)
   assert_include?('push origin develop', cmds)
+end
+
+def test_skip_add_option_without_changes
+  cmds = `hf save "test" --skip-add --echo`
+  assert_include?('Cannot save changes. Please use \'git add\' command to prepare the content staged for the next commit.', cmds)
+end
+
+def test_skip_add_option_with_changes
+  `touch test.txt && git add test.txt`
+  cmds = `hf save "test" --skip-add --echo`
+  assert_include?('git commit -m', cmds)
+ensure
+  `git rm -f test.txt`
 end
 
 main()

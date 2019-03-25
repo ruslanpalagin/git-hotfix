@@ -14,8 +14,17 @@ module SaveAction
 
       Remote::Br.update
 
-      if Code.has_changes?
-        cmds << "git add -A && git commit -a -m '#{commit_message(task_name, commit_message, options)}' #{Remote::Br.exists?(current_branch) ? " && git pull origin #{current_branch} " : nil} #{options[:no_push] ? nil : "&& git push origin #{current_branch}"}"
+      if options[:skip_staging]
+        if Code.has_uncommited_changes?
+          cmds << "git commit -m '#{commit_message(task_name, commit_message, options)}'"\
+                  "#{pull_push_commands(current_branch, options)}"
+        else
+          print "Cannot save changes. Please use 'git add' command to prepare the content staged for the next commit.".yellow + "\n"
+          exit
+        end
+      elsif Code.has_changes?
+        cmds << "git add -A && git commit -a -m '#{commit_message(task_name, commit_message, options)}'"\
+                "#{pull_push_commands(current_branch, options)}"
       else
         cmds << "#{Remote::Br.exists?(current_branch) ? "git pull origin #{current_branch} || true" : nil}"
         cmds << "#{options[:no_push] ? nil : "git push origin #{current_branch}"}"
@@ -41,6 +50,11 @@ module SaveAction
     end
 
     protected
+
+    def pull_push_commands(current_branch, options)
+      "#{Remote::Br.exists?(current_branch) ? " && git pull origin #{current_branch}" : nil}"\
+      "#{options[:no_push] ? nil : " && git push origin #{current_branch}"}"
+    end
 
     def merge_branches args
       branches = args[1..-1].select{|arg| arg != comment(args) }
