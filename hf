@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '2.0.11'
+VERSION = '2.0.12'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
