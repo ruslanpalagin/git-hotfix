@@ -4,7 +4,7 @@ deploy:
   develop: 'echo ''I will speak on: hf deploy develop'' '
 before_deploy_commit: 'echo ''Before committing with deploy'' '
 locale: en
-editor_path: "nano"
+editor_path: nano
 skip_colorize: false
 
 source_branch: master
