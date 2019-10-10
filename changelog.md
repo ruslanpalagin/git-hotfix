@@ -121,3 +121,7 @@ commit_massage_tpl: "[{project_name}] #{task_name}: {commit_message} (hf is awes
 ## 2.0.2
 
 - added `hf r [SCRIPT_NAME]` command
+
+## 2.0.12
+
+- added ability to change default editor

@@ -8,7 +8,7 @@ module ConfigAction
         cmds << "cp #{source} .hf.yml"
       end
 
-      cmds << "nano #{Config.file_location}"
+      cmds << "#{Config.get['editor_path']} #{Config.file_location}"
 
       { cmds: cmds }
     end
