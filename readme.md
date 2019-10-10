@@ -9,7 +9,7 @@ ANY command will ask your confirmation so do not afraid to test it!
 # Install
 
 ```
-git clone https://github.com/ruslanpalagin/git-hotfix.git && cd git-hotfix && chmod +x hf && sudo ln -s $PWD/hf /usr/bin/hf
+git clone https://github.com/ruslanpalagin/git-hotfix.git && cd git-hotfix && chmod +x hf autocomplete.sh && sudo ln -s $PWD/hf /usr/bin/hf && echo $'\nsource' $PWD/autocomplete.sh >> $HOME/.bashrc
 ```
 
 #### Do not have ruby?
