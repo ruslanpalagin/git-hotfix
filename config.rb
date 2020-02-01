@@ -28,6 +28,7 @@ class Config
       result['project_name'] ||= ''
       result['source_branch'] = result['source_branch'] || 'master'
       result['locale'] ||= 'en'
+      result['editor_path'] ||= 'nano'
       result['mode'] = result['mode'] || 'feature'
       result
     end
