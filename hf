@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '2.0.10'
+VERSION = '2.0.11'
 ROOT_DIR = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
@@ -23,6 +23,7 @@ require ROOT_DIR + '/actions/st_action.rb'
 require ROOT_DIR + '/actions/save_action.rb'
 require ROOT_DIR + '/actions/help_action.rb'
 require ROOT_DIR + '/actions/init_action.rb'
+require ROOT_DIR + '/actions/my_action.rb'
 require ROOT_DIR + '/actions/self_update_action.rb'
 require ROOT_DIR + '/actions/run_action.rb'
 require ROOT_DIR + '/lib/string.rb'
@@ -41,6 +42,7 @@ def run_actions(args, options)
   return StAction.(args, options) if action == 'st'
   return SelfUpdateAction.(args, options) if action == 'self-update'
   return InitAction.(args, options) if action == 'init'
+  return MyAction.(args, options) if action == 'my'
   return CheckoutAction.(args, options) if args.count == 1
   return HelpAction.(args, options) if args.count == 0
 end

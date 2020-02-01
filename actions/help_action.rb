@@ -16,6 +16,7 @@ class HelpAction
       print 'hf reset' + "\n"
       print 'hf get' + "\n"
       print 'hf st' + "\n"
+      print 'hf my' + "\n"
       print 'hf init [REMOTE_URL]' + "\n"
       print "\n\n"
       print "Options: ".bold + "\n\n"

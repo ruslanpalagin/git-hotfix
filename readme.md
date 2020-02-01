@@ -12,8 +12,7 @@ ANY command will ask your confirmation so do not afraid to test it!
 git clone https://github.com/ruslanpalagin/git-hotfix.git && cd git-hotfix && chmod +x hf && sudo ln -s $PWD/hf /usr/bin/hf
 ```
 
-#### Do not have ruby?
-
+Ruby is required. Lazy way to install:
 ```
 sudo apt-get install ruby
 ```
@@ -27,7 +26,7 @@ hf self-update
 # Usage hints
 
 ```
-Version: 1.2.2
+Version: 2.0.11
 
 Examples:
 
@@ -42,6 +41,9 @@ hf sync
 hf reset
 hf get
 hf st
+hf my
+hf init [REMOTE_URL]
+
 
 Options: 
 
@@ -49,9 +51,7 @@ No push: (--local|--l) prevents pushes to remote
 Silent: (--quiet|--q) Skips some messages
 Auto confirmation: (--yes|--y)
 Always commit (todo rethink this option): (--ac)
-Print only (do not exec): (--echo)
-Override mode (autosave to config): --mode=hotfix OR --m=hotfix
-Override project_name (autosave to config): --project_name=customName OR --p=customName
+Only print commands: (--echo)
 
 ```
 
@@ -109,7 +109,11 @@ See config specs below.
 
 ### Merge source branch into current branch
 ```
-hf sync
+hf resolve
+```
+same with removing *.orig backup files:
+```
+hf resolve --c
 ```
 Note: config source branch with `hf config` or in .hf.yml
 
@@ -144,6 +148,12 @@ This command will:
 - create first commit
 - create develop branch
 - push all to remote
+
+
+### show my recent branches
+```
+hf my
+```
 
 ### Remove all merged (into source branch) hotfix branches (local & remote):
 ```
