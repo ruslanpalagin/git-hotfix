@@ -25,7 +25,9 @@ class HelpAction
       print 'Auto confirmation: (--yes|--y)' + "\n"
       print 'Always commit (todo rethink this option): (--ac)' + "\n"
       print 'Only print commands: (--echo)' + "\n"
-      print 'Clean .orig files after hf resolve: (--c)' + "\n"
+      print 'Override mode (autosave to config): --mode=hotfix OR --m=hotfix' + "\n"
+      print 'Override project_name (autosave to config): --project_name=customName OR --p=customName' + "\n"
+      print 'Skip adding changes from working tree to staging area: --skip-add' + "\n"
       print "\n"
       print "\n"
 

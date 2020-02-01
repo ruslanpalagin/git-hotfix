@@ -26,7 +26,7 @@ hf self-update
 # Usage hints
 
 ```
-Version: 1.2.2
+Version: 2.0.14
 
 Examples:
 
@@ -51,7 +51,7 @@ No push: (--local|--l) prevents pushes to remote
 Silent: (--quiet|--q) Skips some messages
 Auto confirmation: (--yes|--y)
 Always commit (todo rethink this option): (--ac)
-Print only (do not exec): (--echo)
+Only print commands: (--echo)
 Override mode (autosave to config): --mode=hotfix OR --m=hotfix
 Override project_name (autosave to config): --project_name=customName OR --p=customName
 Skip adding changes from working tree to staging area: --skip-add

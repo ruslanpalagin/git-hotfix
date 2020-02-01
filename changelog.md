@@ -122,11 +122,12 @@ commit_massage_tpl: "[{project_name}] #{task_name}: {commit_message} (hf is awes
 
 - added `hf r [SCRIPT_NAME]` command
 
-## 2.0.11
-
-- added `hf my` command
-
 
 ## 2.0.12
 
 - added ability to change default editor
+
+
+## 2.0.14
+
+- added `hf my` command, upd readme
