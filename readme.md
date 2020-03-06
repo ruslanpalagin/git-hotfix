@@ -6,10 +6,17 @@
 Similar to (and inspired by) git-flow: https://danielkummer.github.io/git-flow-cheatsheet/index.ru_RU.html
 ANY command will ask your confirmation so do not afraid to test it!
 
-# Install
+# Install (Linux)
 
 ```
-git clone https://github.com/ruslanpalagin/git-hotfix.git && cd git-hotfix && chmod +x hf autocomplete.sh && sudo ln -s $PWD/hf /usr/bin/hf && echo $'\nsource' $PWD/autocomplete.sh >> $HOME/.bashrc
+git clone https://github.com/ruslanpalagin/git-hotfix.git && cd git-hotfix sudo ln -s $PWD/hf /usr/bin/hf
+```
+
+
+# Install (Mac)
+
+```
+git clone https://github.com/ruslanpalagin/git-hotfix.git && cd git-hotfix sudo ln -s $PWD/hf /usr/local/bin/hf
 ```
 
 Ruby is required. Lazy way to install:

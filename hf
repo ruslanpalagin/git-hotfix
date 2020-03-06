@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
-VERSION = '2.0.14'
-ROOT_DIR = `ls -l #{File.exists?('/usr/bin/') ? '/usr/bin/' : '/usr/local/bin/'}`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }.scan(/\->\s(.*)\/hf/)[0][0]
+VERSION = '2.0.15'
+mac_path = `ls -l /usr/local/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }
+linux_path = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }
+ROOT_DIR = (mac_path || linux_path).scan(/\->\s(.*)\/hf/)[0][0]
 PROJECT_DIR = `pwd`.gsub("\n", '')
 
 # p ROOT_DIR
