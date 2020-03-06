@@ -44,7 +44,7 @@ hf deploy master develop "its a comment"
 hf delete-merged
 hf config
 hf self-update [VERSION]
-hf sync
+hf resolve
 hf reset
 hf get
 hf st

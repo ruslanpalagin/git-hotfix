@@ -131,3 +131,8 @@ commit_massage_tpl: "[{project_name}] #{task_name}: {commit_message} (hf is awes
 ## 2.0.14
 
 - added `hf my` command, upd readme
+
+
+## 2.0.16
+
+- added support for mac, updated readme

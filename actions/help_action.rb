@@ -12,7 +12,7 @@ class HelpAction
       print 'hf delete-merged' + "\n"
       print 'hf config' + "\n"
       print 'hf self-update [VERSION]' + "\n"
-      print 'hf sync' + "\n"
+      print 'hf resolve' + "\n"
       print 'hf reset' + "\n"
       print 'hf get' + "\n"
       print 'hf st' + "\n"
