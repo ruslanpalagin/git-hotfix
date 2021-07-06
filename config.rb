@@ -42,6 +42,10 @@ class Config
       get['source_branch']
     end
 
+    def before_save_commit
+      get['before_save_commit'] || ''
+    end
+
     def exists?
       File.exists? file_location
     end

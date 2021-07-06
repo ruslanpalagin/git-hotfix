@@ -14,6 +14,8 @@ module SaveAction
 
       Remote::Br.update
 
+      cmds << Config.before_save_commit
+
       if options[:skip_staging]
         if Code.has_uncommited_changes?
           cmds << "git commit -m '#{commit_message(task_name, commit_message, options)}'"\

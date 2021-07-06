@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = '2.0.16'
+VERSION = '2.0.18'
 mac_path = `ls -l /usr/local/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }
 linux_path = `ls -l /usr/bin/`.split("\n").detect{|symlink| symlink.include? 'git-hotfix' }
 ROOT_DIR = (mac_path || linux_path).scan(/\->\s(.*)\/hf/)[0][0]

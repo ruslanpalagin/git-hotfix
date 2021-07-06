@@ -136,3 +136,8 @@ commit_massage_tpl: "[{project_name}] #{task_name}: {commit_message} (hf is awes
 ## 2.0.16
 
 - added support for mac, updated readme
+
+
+## 2.0.18
+
+- added pre save hook. hf.yml config: `before_save_commit: 'echo ''Before save'' '`
