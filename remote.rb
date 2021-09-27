@@ -3,7 +3,7 @@ module Remote
     class << self
 
       def update
-        `git remote update`
+        `git remote update origin`
       end
 
       def exists? name
